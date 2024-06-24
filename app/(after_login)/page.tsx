@@ -2,11 +2,12 @@ import { Suspense } from "react";
 import Main from "./_component/Main";
 import Loading from "./loading";
 
-type ChildrenProps = {
-  children?: React.ReactNode;
+type Props = {
+  params: { children: React.ReactNode };
 };
 
-export default function Home({ children }: ChildrenProps) {
+export default function Home({ params }: Props) {
+  const { children } = params;
   return (
     <Suspense fallback={<Loading />}>
       <Main>{children}</Main>
