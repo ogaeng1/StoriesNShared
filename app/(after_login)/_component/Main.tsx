@@ -7,7 +7,9 @@ import BeforeLogin from "@/app/(before_login)/_component/BeforeMain";
 import SideBar from "@/components/Sidebar";
 import Container from "./Container";
 import useAuthValid from "@/store/authValid";
-import LogoutButton from "./LogOut";
+import useModal from "@/store/modal";
+import Modal from "@/components/UI/Modal";
+import MenuModalContent from "./MenuModalContent";
 
 interface MainProps {
   children: ReactNode;
@@ -15,6 +17,7 @@ interface MainProps {
 
 const Main: React.FC<MainProps> = ({ children }) => {
   const { isLogin, setIsLogin } = useAuthValid();
+  const { type, isOpen } = useModal();
 
   useEffect(() => {
     const isValid = onAuthStateChanged(auth, (user) => {
@@ -29,12 +32,17 @@ const Main: React.FC<MainProps> = ({ children }) => {
   }, [isLogin]);
 
   return isLogin ? (
-    <div className="flex">
+    <div className="flex min-h-[100vh] h-full">
       <SideBar />
       <div className="flex-1 flex items-center justify-center">
         <Container>{children}</Container>
-        <LogoutButton />
       </div>
+      <div id="modal" />
+      {isOpen ? (
+        <Modal type={type} isOverlay>
+          <MenuModalContent />
+        </Modal>
+      ) : null}
     </div>
   ) : (
     <BeforeLogin />
