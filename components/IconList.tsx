@@ -14,7 +14,7 @@ const IconList = () => {
   ];
 
   return (
-    <ul className="flex flex-col items-center gap-7">
+    <ul className="flex flex-col items-center">
       {icon.map((icon) => (
         <li key={icon.name}>{icon.component}</li>
       ))}
