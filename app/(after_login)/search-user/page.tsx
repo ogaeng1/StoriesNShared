@@ -1,7 +1,12 @@
 import Main from "../_component/Main";
+import SearchBar from "./_component/SearchBar";
 
 const SearchingUser = () => {
-  return <Main>유저찾기</Main>;
+  return (
+    <Main>
+      <SearchBar />
+    </Main>
+  );
 };
 
 export default SearchingUser;
