@@ -3,7 +3,7 @@ import Main from "./_component/Main";
 import Loading from "./loading";
 
 type ChildrenProps = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 export default function Home({ children }: ChildrenProps) {
