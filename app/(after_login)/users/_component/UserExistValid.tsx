@@ -5,9 +5,10 @@ import { useParams } from "next/navigation";
 import { collection, getDocs, where, query } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
 import useAuthValid from "@/store/authValid";
-import Main from "../../_component/Main";
 import Error from "../[id]/error";
 import UserInfo from "./UserInfo";
+import SideBar from "@/components/Sidebar";
+import Container from "../../_component/Container";
 
 const UserExistValid = () => {
   const { userExist, setUserExist } = useAuthValid();
@@ -29,9 +30,14 @@ const UserExistValid = () => {
   }, [id]);
 
   return userExist ? (
-    <Main>
-      <UserInfo />
-    </Main>
+    <div className="flex min-w-[438px] min-h-[100vh] h-full overflow-x-hidden">
+      <SideBar />
+      <div className="flex-1 flex items-center justify-center">
+        <Container>
+          <UserInfo />
+        </Container>
+      </div>
+    </div>
   ) : (
     <Error />
   );

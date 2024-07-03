@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Input from "@/components/UI/Input";
 import Link from "next/link";
+import Textarea from "@/components/UI/Textarea";
 
 interface IUserInfo {
   email: string;
@@ -160,7 +161,7 @@ const SignUpForm = () => {
               className="hover:cursor-pointer rounded-[50%]"
             />
           )}
-          <input
+          <Input
             type="file"
             accept="image/*"
             className="hidden"
@@ -194,10 +195,9 @@ const SignUpForm = () => {
             required
             onChange={(e) => setNickname(e.target.value)}
           />
-          <textarea
+          <Textarea
             placeholder="소개글"
-            maxLength={200}
-            className="h-[170px] border p-2 rounded-md resize-none focus:outline-none"
+            className="h-[170px]"
             required
             value={bio}
             onChange={(e) => setBio(e.target.value)}
