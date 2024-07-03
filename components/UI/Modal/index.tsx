@@ -4,7 +4,7 @@ import { HTMLAttributes, useEffect } from "react";
 import { createPortal } from "react-dom";
 import useModal from "@/store/modal";
 
-type ModalType = "menu" | "new" | "edit" | "detail";
+type ModalType = "menu" | "new" | "edit" | "detail_menu" | "comment_menu";
 
 interface ModalState extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
@@ -16,7 +16,8 @@ const variants = {
   menu: "w-[200px] h-[200px] border bg-white rounded-md p-3",
   new: "",
   edit: "",
-  detail: "",
+  detail_menu: "",
+  comment_menu: "",
 };
 
 const Modal = ({
@@ -64,11 +65,15 @@ const Modal = ({
 
   return createPortal(
     <div
-      className="z-[999] fixed w-[100vw] h-screen flex justify-center items-center top-0 left-0 right-0 bottom-0 bg-[rgba(0,0,0,0.4)]"
+      className={`z-[9999] fixed w-[100vw] h-screen flex justify-center items-center top-0 left-0 right-0 bottom-0 ${
+        type !== "detail_menu" && "bg-[rgba(0,0,0,0.4)]"
+      }`}
       onClick={modalHandler}
     >
       <div
-        className={`${variants[type]} ${className}`}
+        className={`${variants[type]} ${className} ${
+          type === "detail_menu" && "absolute"
+        }`}
         onClick={stopPropagation}
       >
         {children}

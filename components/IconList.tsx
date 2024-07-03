@@ -14,7 +14,7 @@ const IconList = () => {
   ];
 
   return (
-    <ul className="flex flex-col items-center">
+    <ul className="flex flex-row tablet:flex-col items-center justify-around w-full tablet:w-auto overflow-x-hidden">
       {icon.map((icon) => (
         <li key={icon.name}>{icon.component}</li>
       ))}

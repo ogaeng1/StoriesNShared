@@ -1,6 +1,11 @@
 import { ButtonHTMLAttributes } from "react";
 
-type ButtonVariants = "primary" | "login_btn" | "google_login" | "github_login";
+type ButtonVariants =
+  | "primary"
+  | "login_btn"
+  | "google_login"
+  | "github_login"
+  | "selectImgDel";
 
 interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
@@ -15,6 +20,8 @@ const variants = {
     "w-[320px] h-[42px] flex justify-center items-center gap-3 rounded-md border text-base hover:bg-[#e3e4e6] hover:shadow-[inset_0_0_10px_rgba(0,0,0,0.2)]",
   github_login:
     "w-[320px] h-[42px] flex justify-center items-center gap-3 rounded-md border text-base hover:bg-[#e3e4e6] hover:shadow-[inset_0_0_10px_rgba(0,0,0,0.2)]",
+  selectImgDel:
+    "absolute flex justify-center items-center text-[20px] -top-[0.3rem] -right-[0.3rem] text-slate-600 hover:scale-125 duration-200",
 };
 
 export default function Button({
