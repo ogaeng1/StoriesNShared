@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import ReactQueryProvider from "@/utils/ReactQueryProvider";
+import ToastContainer from "@/components/UI/Toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,13 +13,19 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: Readonly<{
   children: React.ReactNode;
+  modal: React.ReactNode;
 }>) {
   return (
     <html lang="ko">
       <body className={inter.className}>
-        <ReactQueryProvider>{children}</ReactQueryProvider>
+        <ReactQueryProvider>
+          {children}
+          {modal}
+        </ReactQueryProvider>
+        <ToastContainer />
       </body>
     </html>
   );
