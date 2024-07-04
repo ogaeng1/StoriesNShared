@@ -12,7 +12,7 @@ import ModalType from "./ModalType";
 import CreatePost from "../post/_component/CreatePost";
 import PostList from "../post/_component/PostList";
 
-const Main = ({ children }: { children?: ReactNode }) => {
+const Main = () => {
   const { isLogin, setIsLogin } = useAuthValid();
   const { isOpen } = useModal();
 

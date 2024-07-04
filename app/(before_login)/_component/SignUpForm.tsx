@@ -34,6 +34,8 @@ const SignUpForm = () => {
     nickname,
     bio,
     profileImg,
+    follower,
+    following,
     setBio,
     setEmail,
     setNickname,
@@ -78,6 +80,8 @@ const SignUpForm = () => {
         password,
         profileImg: downloadImg,
         bio,
+        follower,
+        following,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       });
