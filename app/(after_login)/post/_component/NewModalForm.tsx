@@ -1,3 +1,5 @@
+'use client';
+
 import Textarea from "@/components/UI/Textarea";
 import usePost from "@/store/post";
 import {
@@ -89,7 +91,6 @@ const NewModalForm = () => {
       })
     );
 
-    // Firestore 문서 업데이트
     await updateDoc(docRef, { postImg: imageUrls });
   };
 
