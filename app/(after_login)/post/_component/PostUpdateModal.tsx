@@ -1,3 +1,5 @@
+"use client";
+
 import Textarea from "@/components/UI/Textarea";
 import usePost from "@/store/post";
 import Image from "next/image";
@@ -77,7 +79,6 @@ const PostUpdateModal = ({
   const updatePost = async (updatedPost: any) => {
     const docRef = doc(db, "feeds", postId);
 
-    // 기존 이미지 삭제
     const deleteImagePromises = postImg
       .filter((img) => !existingImages.includes(img))
       .map((img) => {
@@ -97,7 +98,6 @@ const PostUpdateModal = ({
 
     const finalPostImg = [...existingImages, ...imageUrls];
 
-    // Firestore 문서 업데이트
     await updateDoc(docRef, {
       ...updatedPost,
       postImg: finalPostImg,
