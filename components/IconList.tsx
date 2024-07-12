@@ -1,5 +1,5 @@
 import ChatIcon from "./Icon/Chat";
-import HeartIcon from "./Icon/Heart";
+import FollowingIcon from "./Icon/Following";
 import HomeIcon from "./Icon/Home";
 import SearchIcon from "./Icon/Search";
 import UserIcon from "./Icon/User";
@@ -8,8 +8,8 @@ const IconList = () => {
   const icon = [
     { component: <HomeIcon />, name: "home" },
     { component: <SearchIcon />, name: "search" },
+    { component: <FollowingIcon />, name: "following" },
     { component: <ChatIcon />, name: "chat" },
-    { component: <HeartIcon />, name: "heart" },
     { component: <UserIcon />, name: "user" },
   ];
 

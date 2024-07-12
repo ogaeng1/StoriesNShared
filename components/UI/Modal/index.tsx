@@ -4,7 +4,14 @@ import { HTMLAttributes, useEffect } from "react";
 import { createPortal } from "react-dom";
 import useModal from "@/store/modal";
 
-type ModalType = "menu" | "new" | "edit" | "detail_menu" | "comment_menu";
+type ModalType =
+  | "menu"
+  | "new"
+  | "edit"
+  | "detail_menu"
+  | "comment_menu"
+  | "following"
+  | "follower";
 
 interface ModalState extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
@@ -18,6 +25,8 @@ const variants = {
   edit: "",
   detail_menu: "",
   comment_menu: "",
+  following: "w-[200px] h-[200px] border bg-white rounded-md p-3",
+  follower: "w-[200px] h-[200px] border bg-white rounded-md p-3",
 };
 
 const Modal = ({
