@@ -4,21 +4,22 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postLike } from "@/utils/likePost";
-import { Feed, Posts } from "./types";
+import { Feed } from "./types";
 import Image from "next/image";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { getCreatedAt } from "@/utils/getCreatedAt";
 import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io";
 import { BiMessageRounded } from "react-icons/bi";
-import { query, collection, getDocs, where, orderBy } from "firebase/firestore";
+import { query, collection, getDocs, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { auth, db } from "@/firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import Link from "next/link";
 import { notify } from "@/components/UI/Toast";
+
 type PostCardProps = {
   data: Feed;
 };
