@@ -4,23 +4,25 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { postLike } from "@/utils/likePost";
-import { Posts } from "./types";
+import { Feed, Posts } from "./types";
 import Image from "next/image";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { getCreatedAt } from "@/utils/getCreatedAt";
 import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io";
 import { BiMessageRounded } from "react-icons/bi";
-import { query, collection, getDocs, where } from "firebase/firestore";
+import { query, collection, getDocs, where, orderBy } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { auth, db } from "@/firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import Link from "next/link";
 import { notify } from "@/components/UI/Toast";
-
-const PostCard = ({ data }: Posts) => {
+type PostCardProps = {
+  data: Feed;
+};
+const PostCard = ({ data }: PostCardProps) => {
   const [nickname, setNickname] = useState("");
   const queryClient = useQueryClient();
 
@@ -100,91 +102,85 @@ const PostCard = ({ data }: Posts) => {
     return () => unsubscribe();
   }, []);
 
+  const isLiked = data.likeUser.includes(nickname);
   return (
-    <ul>
-      {data?.map((feed) => {
-        const isLiked = feed.likeUser.includes(nickname);
-        return (
-          <Link href={`/post/${feed.id}`} key={feed.id}>
-            <li className="w-full h-full border">
-              <div className="flex gap-2">
+    <Link href={`/post/${data.id}`} key={data.id}>
+      <div className="border">
+        <div className="flex gap-2">
+          <Image
+            src={data.userProfileImg}
+            alt="작성자 프로필 이미지"
+            width={36}
+            height={36}
+            className="w-[36px] h-[36px] border rounded-[50%]"
+          />
+          <div>
+            <div className="flex gap-3">
+              <div className="font-bold">{data.userId}</div>
+              <div className="text-gray-600">
+                {getCreatedAt(data.createdAt.seconds)}
+              </div>
+            </div>
+            {data.postImg.length === 0 ? (
+              <div className="mt-5">
+                <div>{data.content}</div>
+              </div>
+            ) : (
+              <div className="w-full overflow-hidden text-ellipsis whitespace-nowrap">
+                {data.content}
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="flex mt-3">
+          <div className="w-[8%]"></div>
+          <Swiper
+            modules={[Pagination]}
+            slidesPerView={1}
+            pagination={{ type: "bullets" }}
+            className="rounded-md w-[84%]"
+          >
+            {data.postImg.map((img) => (
+              <SwiperSlide key={img} className="w-[224px]">
                 <Image
-                  src={feed.userProfileImg}
-                  alt="작성자 프로필 이미지"
-                  width={36}
-                  height={36}
-                  className="w-[36px] h-[36px] border rounded-[50%]"
+                  src={img}
+                  alt="포스트 이미지"
+                  width={224}
+                  height={300}
+                  className="w-full h-[300px]"
                 />
-                <div>
-                  <div className="flex gap-3">
-                    <div className="font-bold">{feed.userId}</div>
-                    <div className="text-gray-600">
-                      {getCreatedAt(feed.createdAt.seconds)}
-                    </div>
-                  </div>
-                  {feed.postImg.length === 0 ? (
-                    <div className="mt-5">
-                      <div>{feed.content}</div>
-                    </div>
-                  ) : (
-                    <div className="w-full overflow-hidden text-ellipsis whitespace-nowrap">
-                      {feed.content}
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div className="flex mt-3">
-                <div className="w-[8%]"></div>
-                <Swiper
-                  modules={[Pagination]}
-                  slidesPerView={1}
-                  pagination={{ type: "bullets" }}
-                  className="rounded-md w-[84%]"
-                >
-                  {feed.postImg.map((img) => (
-                    <SwiperSlide key={img} className="w-[224px]">
-                      <Image
-                        src={img}
-                        alt="포스트 이미지"
-                        width={224}
-                        height={300}
-                        className="w-full h-[300px]"
-                      />
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-                <div className="w-[8%]"></div>
-              </div>
-              <div className="my-3 mx-10 flex gap-5 text-[20px]">
-                <div className="flex items-center gap-2">
-                  {isLiked ? (
-                    <IoMdHeart
-                      className="text-red-500"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleLike(feed.id);
-                      }}
-                    />
-                  ) : (
-                    <IoMdHeartEmpty
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleLike(feed.id);
-                      }}
-                    />
-                  )}
-                  <span>{feed.likeCount}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <BiMessageRounded />
-                  <span>{feed.commentCount}</span>
-                </div>
-              </div>
-            </li>
-          </Link>
-        );
-      })}
-    </ul>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+          <div className="w-[8%]"></div>
+        </div>
+        <div className="my-3 mx-10 flex gap-5 text-[20px]">
+          <div className="flex items-center gap-2">
+            {isLiked ? (
+              <IoMdHeart
+                className="text-red-500"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleLike(data.id);
+                }}
+              />
+            ) : (
+              <IoMdHeartEmpty
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleLike(data.id);
+                }}
+              />
+            )}
+            <span>{data.likeCount}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <BiMessageRounded />
+            <span>{data.commentCount}</span>
+          </div>
+        </div>
+      </div>
+    </Link>
   );
 };
 

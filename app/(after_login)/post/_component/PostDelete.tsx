@@ -27,7 +27,7 @@ const PostDelete = ({ postId, postImg }: DelProps) => {
   const delPostButton = () => {
     Swal.fire({
       icon: "warning",
-      title: "삭제하면 되돌릴 수 없습니다.",
+      title: "삭제하면 복구할 수 없습니다.",
       text: "삭제 하시겠습니까?",
       showCancelButton: true,
       confirmButtonText: "확인",
