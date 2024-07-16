@@ -6,7 +6,8 @@ type ButtonVariants =
   | "google_login"
   | "github_login"
   | "selectImgDel"
-  | "followButton";
+  | "followButton"
+  | "messageButton";
 
 interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
@@ -24,6 +25,8 @@ const variants = {
   selectImgDel:
     "absolute flex justify-center items-center text-[20px] -top-[0.3rem] -right-[0.3rem] text-slate-600 hover:scale-125 duration-200",
   followButton:
+    "w-full h-[42px] flex justify-center items-center rounded-md border text-base bg-[#1D9BF0] hover:bg-[#e3e4e6]",
+  messageButton:
     "w-full h-[42px] flex justify-center items-center rounded-md border text-base bg-[#1D9BF0] hover:bg-[#e3e4e6]",
 };
 
