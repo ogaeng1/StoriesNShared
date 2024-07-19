@@ -13,6 +13,13 @@
 ![React Query](https://img.shields.io/badge/-React%20Query-FF4154?style=for-the-badge&logo=react%20query&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![Firebase](https://img.shields.io/badge/firebase-a08021?style=for-the-badge&logo=firebase&logoColor=white)
+<br />
+<br />
+<br />
+<strong>서비스 아키텍처</strong>
+<br />
+<br />
+![arch](https://github.com/user-attachments/assets/c5856032-ec69-44c2-8e2a-07d18ba48c4c)
 
 <br />
 <br />
