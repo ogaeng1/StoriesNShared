@@ -1,5 +1,3 @@
-import Navbar from "@/components/Navbar";
-import Container from "../../_component/Container";
 import CurLoginUser from "../_component/CurLoginUser";
 import {
   HydrationBoundary,
@@ -21,14 +19,7 @@ const FollowFeedPage = async ({ params }: Props) => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <div className="flex min-w-[437px] min-h-[100vh] h-full overflow-x-hidden">
-        <Navbar />
-        <div className="flex-1 flex items-center justify-center">
-          <Container>
-            <CurLoginUser />
-          </Container>
-        </div>
-      </div>
+      <CurLoginUser />
     </HydrationBoundary>
   );
 };

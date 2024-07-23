@@ -7,10 +7,10 @@ import { db } from "@/firebase/firebase";
 import useAuthValid from "@/store/authValid";
 import Error from "../[id]/error";
 import UserInfo from "./UserInfo";
-import SideBar from "@/components/Navbar";
 import Container from "../../_component/Container";
 import ModalType from "../../_component/ModalType";
 import useModal from "@/store/modal";
+import Navbar from "@/components/Navbar";
 
 const UserExistValid = () => {
   const { userExist, setUserExist } = useAuthValid();
@@ -33,16 +33,18 @@ const UserExistValid = () => {
   }, []);
 
   return userExist ? (
-    <div className="flex min-w-[438px] min-h-[100vh] h-full overflow-x-hidden">
-      <SideBar />
-      <div className="flex-1 flex items-center justify-center">
-        <Container>
-          <UserInfo userId={id as string} />
-        </Container>
+    <>
+      <div className="flex justify-center min-w-[437px] min-h-[100vh] h-full">
+        <div className="flex-col flex items-center justify-center">
+          <Navbar />
+          <Container>
+            <UserInfo userId={id as string} />
+          </Container>
+        </div>
       </div>
       <div id="modal" />
       {isOpen && <ModalType />}
-    </div>
+    </>
   ) : (
     <Error />
   );

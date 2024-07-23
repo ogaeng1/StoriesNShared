@@ -22,9 +22,7 @@ const ChattingRoomHeader = () => {
           );
           setOtherUserNickname(otherUser);
         }
-      } catch (error) {
-        console.error("Failed to fetch chat room info:", error);
-      }
+      } catch (error) {}
     };
 
     fetchChatRoomInfo();
