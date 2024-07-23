@@ -47,21 +47,38 @@ const DetailModalContent = () => {
       await queryClient.cancelQueries({ queryKey: ["feeds"] });
 
       const previousFeeds = queryClient.getQueryData(["feeds"]);
-
       queryClient.setQueryData(["feeds"], (oldData: any) => {
-        return oldData.map((feed: any) => {
-          if (feed.id === postId) {
-            const isLiked = feed.likeUser.includes(userId);
-            return {
-              ...feed,
-              likeCount: isLiked ? feed.likeCount - 1 : feed.likeCount + 1,
-              likeUser: isLiked
-                ? feed.likeUser.filter((user: string) => user !== userId)
-                : [...feed.likeUser, userId],
-            };
+        if (!oldData || !oldData.pages) {
+          return oldData;
+        }
+
+        const newPages = oldData.pages.map((page: any) => {
+          if (!page.data) {
+            return page;
           }
-          return feed;
+
+          return {
+            ...page,
+            data: page.data.map((feed: any) => {
+              if (feed.id === postId) {
+                const isLiked = feed.likeUser.includes(userId);
+                return {
+                  ...feed,
+                  likeCount: isLiked ? feed.likeCount - 1 : feed.likeCount + 1,
+                  likeUser: isLiked
+                    ? feed.likeUser.filter((user: string) => user !== userId)
+                    : [...feed.likeUser, userId],
+                };
+              }
+              return feed;
+            }),
+          };
         });
+
+        return {
+          ...oldData,
+          pages: newPages,
+        };
       });
 
       return { previousFeeds };

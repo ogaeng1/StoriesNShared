@@ -1,4 +1,4 @@
-import SideBar from "@/components/Sidebar";
+import SideBar from "@/components/Navbar";
 import Container from "../../_component/Container";
 import ChattingRoom from "../_component/ChattingRoom";
 

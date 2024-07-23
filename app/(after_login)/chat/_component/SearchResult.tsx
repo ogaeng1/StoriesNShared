@@ -39,7 +39,7 @@ const SearchResult = ({ searchResult, loading, keyword }: ResultProps) => {
   return (
     <>
       {!loading && searchResult.length > 0 && (
-        <ul className="absolute top-full w-full bg-white rounded shadow-lg">
+        <ul className="absolute top-full w-full bg-secondary text-white rounded shadow-lg">
           {searchResult.map((user) => (
             <li
               key={user.id}
@@ -77,14 +77,14 @@ const SearchResult = ({ searchResult, loading, keyword }: ResultProps) => {
         </ul>
       )}
       {loading && (
-        <div className="w-full absolute top-full bg-white">
+        <div className="w-full absolute top-full bg-secondary text-white">
           <div className="border p-[10px_15px] flex justify-center items-center text-2xl">
             <PiSpinnerGapBold className="animate-spinner" />
           </div>
         </div>
       )}
       {!loading && searchResult.length === 0 && keyword.length > 0 && (
-        <div className="w-full absolute top-full bg-white">
+        <div className="w-full absolute top-full bg-secondary text-white">
           <div className="border p-[10px_15px] flex justify-center items-center text-xl">
             검색 결과가 없습니다.
           </div>

@@ -7,13 +7,13 @@ const CreatePost = () => {
   const { setType, isOpen, setIsOpen } = useModal();
   return (
     <Button
-      className="h-[80px] border rounded-md"
+      className="h-[67px] border rounded-md my-2"
       onClick={() => {
         setIsOpen(!isOpen);
         setType("new");
       }}
     >
-      게시글 작성
+      내 이야기 공유하기
     </Button>
   );
 };

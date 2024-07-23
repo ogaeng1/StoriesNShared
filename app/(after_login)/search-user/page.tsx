@@ -1,4 +1,4 @@
-import SideBar from "@/components/Sidebar";
+import SideBar from "@/components/Navbar";
 import Search from "./_component/Search";
 import Container from "../_component/Container";
 

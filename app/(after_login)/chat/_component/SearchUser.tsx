@@ -54,13 +54,13 @@ const Search = () => {
   return (
     <div className="flex justify-center items-center mt-4">
       <div className="relative w-full">
-        <FiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
+        <FiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white" />
         <Input
           type="text"
           placeholder="대화 상대를 검색하세요"
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
-          className={`w-full h-[60px] pl-12 pr-4 box-border placeholder-gray-400 ${
+          className={`w-full h-[60px] pl-12 pr-4 box-border bg-secondary text-white ${
             keyword ? "rounded-b-none" : ""
           }`}
         />

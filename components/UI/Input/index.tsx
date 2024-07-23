@@ -14,7 +14,7 @@ export default function Input({
   return (
     <input
       type={type}
-      className={`border focus:outline-none h-8 px-2 rounded-md ${className}`}
+      className={`focus:outline-none focus:ring-1 focus:ring-[#677777] rounded-xl box-border ${className}`}
       onChange={onChange}
       placeholder={placeholder}
       id={id}

@@ -142,9 +142,9 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="h-screen flex justify-center items-center">
+    <div className="h-screen bg-primary flex justify-center items-center text-white">
       <form
-        className="max-w-[760px] min-w-[437px] h-[760px] border flex flex-col p-12"
+        className="min-w-[377px] border rounded-xl flex flex-col p-12"
         onSubmit={SubmitSignUp}
       >
         <label htmlFor="profile-img" className="flex justify-center">
@@ -182,6 +182,7 @@ const SignUpForm = () => {
             type="email"
             placeholder="이메일"
             value={email}
+            className="w-[377px] h-[55px] py-[16px] px-3 bg-secondary text-white"
             required
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -189,6 +190,7 @@ const SignUpForm = () => {
             type="password"
             placeholder="비밀번호"
             value={password}
+            className="w-[377px] h-[55px] py-[16px] px-3 bg-secondary text-white"
             required
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -196,6 +198,7 @@ const SignUpForm = () => {
             type="text"
             placeholder="닉네임"
             value={nickname}
+            className="w-[377px] h-[55px] py-[16px] px-3 bg-secondary text-white"
             required
             onChange={(e) => setNickname(e.target.value)}
           />

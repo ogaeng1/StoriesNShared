@@ -31,54 +31,50 @@ const PostCard = ({ data }: PostCardProps) => {
     mutationFn: postLike,
     onMutate: async ({ postId, userId }) => {
       await queryClient.cancelQueries({ queryKey: ["feeds"] });
-      await queryClient.cancelQueries({ queryKey: ["feeds", postId] });
 
       const previousFeeds = queryClient.getQueryData(["feeds"]);
-      const previousFeed = queryClient.getQueryData(["feeds", postId]);
-
       queryClient.setQueryData(["feeds"], (oldData: any) => {
-        return oldData.map((feed: any) => {
-          if (feed.id === postId) {
-            const isLiked = feed.likeUser.includes(userId);
-            return {
-              ...feed,
-              likeCount: isLiked ? feed.likeCount - 1 : feed.likeCount + 1,
-              likeUser: isLiked
-                ? feed.likeUser.filter((user: string) => user !== userId)
-                : [...feed.likeUser, userId],
-            };
-          }
-          return feed;
-        });
-      });
-
-      queryClient.setQueryData(["feeds", postId], (oldData: any) => {
-        if (oldData) {
-          const isLiked = oldData.likeUser.includes(userId);
-          return {
-            ...oldData,
-            likeCount: isLiked ? oldData.likeCount - 1 : oldData.likeCount + 1,
-            likeUser: isLiked
-              ? oldData.likeUser.filter((user: string) => user !== userId)
-              : [...oldData.likeUser, userId],
-          };
+        if (!oldData || !oldData.pages) {
+          return oldData;
         }
-        return oldData;
+
+        const newPages = oldData.pages.map((page: any) => {
+          if (!page.data) {
+            return page;
+          }
+
+          return {
+            ...page,
+            data: page.data.map((feed: any) => {
+              if (feed.id === postId) {
+                const isLiked = feed.likeUser.includes(userId);
+                return {
+                  ...feed,
+                  likeCount: isLiked ? feed.likeCount - 1 : feed.likeCount + 1,
+                  likeUser: isLiked
+                    ? feed.likeUser.filter((user: string) => user !== userId)
+                    : [...feed.likeUser, userId],
+                };
+              }
+              return feed;
+            }),
+          };
+        });
+
+        return {
+          ...oldData,
+          pages: newPages,
+        };
       });
 
-      return { previousFeeds, previousFeed };
+      return { previousFeeds };
     },
     onError: (err, variables, context) => {
       queryClient.setQueryData(["feeds"], context?.previousFeeds);
-      queryClient.setQueryData(
-        ["feeds", variables.postId],
-        context?.previousFeed
-      );
       notify("error", "요청에 실패했습니다.");
     },
-    onSettled: (data, error, variables) => {
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["feeds"] });
-      queryClient.invalidateQueries({ queryKey: ["feeds", variables.postId] });
     },
   });
 
@@ -106,7 +102,7 @@ const PostCard = ({ data }: PostCardProps) => {
   const isLiked = data.likeUser.includes(nickname);
   return (
     <Link href={`/post/${data.id}`} key={data.id}>
-      <div className="border">
+      <div className="border-b-[1px] border-tertiary mt-4">
         <div className="flex gap-2">
           <Image
             src={data.userProfileImg}

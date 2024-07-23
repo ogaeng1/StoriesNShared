@@ -98,7 +98,7 @@ const ChattingRoom = () => {
         {Object.entries(groupedMessages).map(([date, messages]) => (
           <div key={date}>
             <div className="text-center my-5">
-              <span className="bg-slate-300 rounded-2xl px-3 py-1">{date}</span>
+              <span className="bg-secondary rounded-2xl px-3 py-1">{date}</span>
             </div>
             {messages.map((message: DocumentData) => (
               <div
@@ -120,7 +120,13 @@ const ChattingRoom = () => {
                 )}
                 <div>
                   <strong>{message.sender}</strong>
-                  <div className="bg-gray-100 p-2 rounded-lg max-w-80 break-words">
+                  <div
+                    className={`p-2 rounded-lg max-w-80 break-words ${
+                      message.sender === userProfile?.nickname
+                        ? "bg-tertiary"
+                        : "bg-secondary"
+                    }`}
+                  >
                     {message.text}
                   </div>
                 </div>
@@ -146,7 +152,7 @@ const ChattingRoom = () => {
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           placeholder="메시지를 입력하세요"
-          className="w-full h-full pr-12"
+          className="w-full h-[45px] py-[16px] px-3 bg-secondary text-white pr-12"
         />
         <Button type="submit" className="w-10 h-full text-2xl absolute">
           <FiSend />

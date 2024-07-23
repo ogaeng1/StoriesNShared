@@ -7,7 +7,7 @@ import { db } from "@/firebase/firebase";
 import useAuthValid from "@/store/authValid";
 import Error from "../[id]/error";
 import UserInfo from "./UserInfo";
-import SideBar from "@/components/Sidebar";
+import SideBar from "@/components/Navbar";
 import Container from "../../_component/Container";
 import ModalType from "../../_component/ModalType";
 import useModal from "@/store/modal";

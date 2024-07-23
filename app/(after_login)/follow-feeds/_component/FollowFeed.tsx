@@ -51,15 +51,11 @@ const FollowFeed = () => {
   const likeMutation = useMutation({
     mutationFn: postLike,
     onMutate: async ({ postId, userId }) => {
-      console.log("onMutate - postId:", postId, "userId:", userId);
-
       await queryClient.cancelQueries({ queryKey: ["followingFeeds"] });
       await queryClient.cancelQueries({ queryKey: ["followingFeeds", postId] });
 
       const previousFeeds = queryClient.getQueryData(["followingFeeds"]);
-      console.log("previousFeeds:", previousFeeds);
       const previousFeed = queryClient.getQueryData(["followingFeeds", postId]);
-      console.log("previousFeed:", previousFeed);
 
       queryClient.setQueryData(["followingFeeds"], (oldData: any) => {
         return oldData.map((feed: any) => {
@@ -137,7 +133,7 @@ const FollowFeed = () => {
         const isLiked = feed.likeUser.includes(nickname);
         return (
           <Link href={`/post/${feed.id}`} key={feed.id}>
-            <li className="w-full h-full border">
+            <li className="border-b-[1px] border-tertiary mt-4">
               <div className="flex gap-2">
                 <Image
                   src={feed.userProfileImg}

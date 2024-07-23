@@ -82,7 +82,7 @@ const ChattingList = () => {
         <Link
           href={`/chat/${room.id}`}
           key={room.id}
-          className="mb-2 h-16 border rounded-md flex justify-between items-center"
+          className="mb-2 h-16 border rounded-md flex px-2 justify-between items-center"
         >
           <div className="flex items-center">
             <Image

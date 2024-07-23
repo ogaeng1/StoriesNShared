@@ -17,6 +17,8 @@ import {
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import Image from "next/image";
+import Link from "next/link";
+import { MdKeyboardArrowRight } from "react-icons/md";
 
 const SocialLogin = () => {
   const googleLogin = async () => {
@@ -112,20 +114,30 @@ const SocialLogin = () => {
         <Image
           src="/assets/icons/google.png"
           alt="구글 로그인 로고"
-          width={24}
-          height={24}
+          width={32}
+          height={32}
+          className="border bg-white rounded-[50%]"
         />
         Google로 시작하기
+        <MdKeyboardArrowRight className="text-xl" />
       </Button>
       <Button variant="google_login" onClick={githubLogin}>
         <Image
           src="/assets/icons/github.png"
           alt="깃허브 로그인 로고"
-          width={24}
-          height={24}
+          width={32}
+          height={32}
+          className="border bg-white rounded-[50%]"
         />
         Github로 시작하기
+        <MdKeyboardArrowRight className="text-xl" />
       </Button>
+      <div className="flex justify-center">
+        <span className="text-white">아직 회원이 아니신가요?</span>
+        <Link className="pl-2 text-blue-500 font-bold" href="/signup">
+          가입하기
+        </Link>
+      </div>
     </div>
   );
 };
