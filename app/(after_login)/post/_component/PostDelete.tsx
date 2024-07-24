@@ -16,6 +16,7 @@ const PostDelete = ({ postId, postImg }: DelProps) => {
     mutationFn: () => deletePost(postId, postImg),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["feeds"] });
+      queryClient.removeQueries({ queryKey: ["feeds", postId] });
       router.back();
       notify("success", "삭제되었습니다.");
     },
