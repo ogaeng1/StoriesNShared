@@ -38,6 +38,7 @@ const UserInfo = ({ userId }: Props) => {
   const [isFollowing, setIsFollowing] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<string>("");
   const [targetUserId, setTargetUserId] = useState<string>("");
+  const [loading, setLoading] = useState(true);
   const { isOpen, setIsOpen, setType } = useModal();
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -95,6 +96,7 @@ const UserInfo = ({ userId }: Props) => {
         setTargetUserId(fetchedTargetUserId);
 
         await checkFollowing(fetchedCurrentUserId, fetchedTargetUserId);
+        setLoading(false);
       } catch (error) {
         console.error(error);
       }
@@ -170,57 +172,59 @@ const UserInfo = ({ userId }: Props) => {
     return () => unsubscribe();
   }, []);
 
-  return (
-    <div className="h-[128px] p-[10px_25px]">
-      <div className="flex justify-center">{user?.nickname}</div>
-      <div className="h-full flex items-center">
-        <Avatar variant="profile">
-          {user?.profileImg && (
-            <Image
-              src={user?.profileImg}
-              alt="마이페이지 프로필 사진"
-              width={64}
-              height={64}
-              className="rounded-[50%]"
-            />
-          )}
-        </Avatar>
-        <div className="flex gap-3 items-center ml-5 font-semibold">
-          <Button
-            className="flex flex-col items-center"
-            onClick={() => {
-              setIsOpen(!isOpen);
-              setType("follower");
-            }}
-          >
-            <div>{user?.follower.length}</div>
-            <div>팔로워</div>
-          </Button>
-          <Button
-            className="flex flex-col items-center"
-            onClick={() => {
-              setIsOpen(!isOpen);
-              setType("following");
-            }}
-          >
-            <div>{user?.following.length}</div>
-            <div>팔로잉</div>
-          </Button>
+  if (!loading && user) {
+    return (
+      <div className="h-[128px] p-[10px_25px]">
+        <div className="flex justify-center">{user.nickname}</div>
+        <div className="h-full flex items-center">
+          <Avatar variant="profile">
+            {user.profileImg && (
+              <Image
+                src={user.profileImg}
+                alt="마이페이지 프로필 사진"
+                width={64}
+                height={64}
+                className="rounded-[50%]"
+              />
+            )}
+          </Avatar>
+          <div className="flex gap-3 items-center ml-5 font-semibold">
+            <Button
+              className="flex flex-col items-center"
+              onClick={() => {
+                setIsOpen(!isOpen);
+                setType("follower");
+              }}
+            >
+              <div>{user.follower.length}</div>
+              <div>팔로워</div>
+            </Button>
+            <Button
+              className="flex flex-col items-center"
+              onClick={() => {
+                setIsOpen(!isOpen);
+                setType("following");
+              }}
+            >
+              <div>{user.following.length}</div>
+              <div>팔로잉</div>
+            </Button>
+          </div>
         </div>
+        {curUser !== user.nickname && (
+          <div className="flex gap-3 justify-between items-center">
+            <Button variant="followButton" onClick={() => mutation.mutate()}>
+              {isFollowing ? "팔로우 끊기" : "팔로우"}
+            </Button>
+            <Button variant="messageButton" onClick={handleMessage}>
+              메시지
+            </Button>
+          </div>
+        )}
+        <div>{user.bio}</div>
       </div>
-      {curUser !== user?.nickname && (
-        <div className="flex gap-3 justify-between items-center">
-          <Button variant="followButton" onClick={() => mutation.mutate()}>
-            {isFollowing ? "팔로우 끊기" : "팔로우"}
-          </Button>
-          <Button variant="messageButton" onClick={handleMessage}>
-            메시지
-          </Button>
-        </div>
-      )}
-      <div>{user?.bio}</div>
-    </div>
-  );
+    );
+  }
 };
 
 export default UserInfo;

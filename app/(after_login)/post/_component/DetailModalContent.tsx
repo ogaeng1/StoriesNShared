@@ -143,9 +143,9 @@ const DetailModalContent = () => {
 
   return (
     <div className="z-[999] fixed w-[100vw] h-screen flex justify-center items-center top-0 left-0 right-0 bottom-0 bg-[rgba(0,0,0,0.4)]">
-      <div className="w-[487px] h-[750px] border rounded-md bg-white overflow-auto scrollbar-hide">
-        <div className="flex items-center sticky top-0 bg-[aliceblue] z-10 border-b-[1px] p-2 mb-2">
-          <Button onClick={modalHandler}>❌</Button>
+      <div className="w-[487px] max-h-[612px] border rounded-md bg-secondary overflow-auto scrollbar-hide text-white">
+        <div className="flex items-center sticky top-0 z-10 bg-secondary p-2 mb-2">
+          <Button onClick={modalHandler}>✖</Button>
         </div>
         <div className="px-3">
           <div className="flex gap-3 items-center justify-between">
@@ -161,7 +161,7 @@ const DetailModalContent = () => {
               </div>
               <div>
                 <div className="font-bold">{data?.userId}</div>
-                <div className="text-gray-600">
+                <div className="text-slate-400">
                   {getCreatedAt(data?.createdAt.seconds)}
                 </div>
               </div>
@@ -169,7 +169,7 @@ const DetailModalContent = () => {
             {nickname === data?.userId && (
               <div className="relative flex items-center justify-center">
                 <Button
-                  className="text-[30px] hover:text-slate-700"
+                  className="text-[30px]"
                   onClick={() => {
                     setType("detail_menu");
                     setIsOpen(!isOpen);

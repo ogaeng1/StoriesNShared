@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Textarea from "@/components/UI/Textarea";
 import usePost from "@/store/post";
@@ -23,6 +23,7 @@ import useModal from "@/store/modal";
 import { onAuthStateChanged } from "firebase/auth";
 import { MdOutlineCancel } from "react-icons/md";
 import { notify } from "@/components/UI/Toast";
+import Input from "@/components/UI/Input";
 
 const NewModalForm = () => {
   const { content, postImg, setContent, setPostImg } = usePost();
@@ -130,11 +131,11 @@ const NewModalForm = () => {
 
   return (
     <form
-      className="h-[680px] max-w-[620px] min-w-[437px] p-[2rem] border rounded-md bg-blue-200 flex flex-col"
+      className="min-w-[437px] p-[1rem] border rounded-md bg-secondary flex flex-col"
       onSubmit={postUpload}
     >
-      <div className="flex justify-end">
-        <Button onClick={() => setIsOpen(!isOpen)}>❌</Button>
+      <div className="text-white">
+        <Button onClick={() => setIsOpen(!isOpen)}>✖</Button>
       </div>
       <Textarea
         className="h-[270px] my-2"
@@ -143,7 +144,7 @@ const NewModalForm = () => {
         value={content}
         onChange={(e) => setContent(e.target.value)}
       />
-      <div className="flex gap-3">
+      <div className="flex gap-3 my-2">
         {postImg.map((img, idx) => (
           <div key={img} className="relative w-[64px] h-[64px] rounded-md">
             <Image
@@ -161,19 +162,19 @@ const NewModalForm = () => {
       </div>
       <label
         htmlFor="profile-img"
-        className="flex justify-center border rounded p-1 hover:cursor-pointer"
+        className="flex justify-center border rounded p-1 hover:cursor-pointer text-white"
       >
-        <input
+        <Input
           type="file"
           accept="image/*"
           className="hidden"
           id="profile-img"
           onChange={postImgUpload}
         />
-        📷 사진 올리기
+        사진 올리기
       </label>
-      <Button type="submit" className="h-10 border mt-5">
-        작성
+      <Button type="submit" className="h-10 border mt-3 rounded-md text-white">
+        확인
       </Button>
     </form>
   );

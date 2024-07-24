@@ -1,4 +1,5 @@
-// CommentForm.tsx
+"use client";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateDoc, arrayUnion, doc, increment } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
@@ -48,7 +49,6 @@ const CommentForm = ({ profileImg, postId, nickname }: Props) => {
       queryClient.invalidateQueries({ queryKey: ["feeds", postId] });
       queryClient.invalidateQueries({ queryKey: ["feeds"] });
       setComment("");
-      notify("success", "댓글이 등록되었습니다.");
     },
     onError: () => {
       notify("error", "댓글 작성에 실패했습니다.");
@@ -73,16 +73,19 @@ const CommentForm = ({ profileImg, postId, nickname }: Props) => {
         height={38}
         className="rounded-[50%]"
       />
-      <form className="flex w-full items-center" onSubmit={handleComment}>
+      <form
+        className="flex w-full items-center justify-between"
+        onSubmit={handleComment}
+      >
         <Input
           type="text"
           placeholder="댓글을 입력하세요"
-          className="w-full h-[38px] border-0 border-b-[1px]"
+          className="w-full h-[38px] border box-border px-2 bg-secondary"
           value={comment}
           onChange={(e) => setComment(e.target.value)}
         />
         <Button className="hover:scale-110 duration-200" type="submit">
-          <FiSend className="text-3xl" />
+          <FiSend className="text-2xl" />
         </Button>
       </form>
     </div>

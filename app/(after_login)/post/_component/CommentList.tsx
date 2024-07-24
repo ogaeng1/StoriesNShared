@@ -158,7 +158,7 @@ const CommentList = ({ postId }: Props) => {
                         className="absolute top-7 right-0 border bg-white"
                       >
                         {(nickname === el.userId || nickname === feedUser) && (
-                          <div className="w-[50px] border rounded flex flex-col items-center justify-center">
+                          <div className="w-[50px] border rounded flex flex-col items-center justify-center bg-secondary text-white">
                             <Button onClick={() => delCommentButton(el)}>
                               삭제
                             </Button>
