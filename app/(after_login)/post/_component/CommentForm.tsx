@@ -30,7 +30,6 @@ const CommentForm = ({ profileImg, postId, nickname }: Props) => {
     nickname,
   }: CommentProps) => {
     const postRef = doc(db, "feeds", postId);
-    console.log("Updating doc:", postRef);
 
     try {
       await updateDoc(postRef, {
@@ -44,10 +43,7 @@ const CommentForm = ({ profileImg, postId, nickname }: Props) => {
         }),
         commentCount: increment(1),
       });
-      console.log("댓글 등록 성공:", postRef);
-    } catch (error) {
-      console.error("댓글 등록 실패:", error);
-    }
+    } catch (error) {}
   };
 
   const { mutate } = useMutation({
@@ -56,10 +52,8 @@ const CommentForm = ({ profileImg, postId, nickname }: Props) => {
       queryClient.invalidateQueries({ queryKey: ["feeds", postId] });
       queryClient.invalidateQueries({ queryKey: ["feeds"] });
       setComment("");
-      console.log("댓글 등록 성공 후 초기화:", comment);
     },
     onError: (error) => {
-      console.error("Error adding comment:", error);
       notify("error", "댓글 작성에 실패했습니다.");
     },
   });
@@ -71,7 +65,6 @@ const CommentForm = ({ profileImg, postId, nickname }: Props) => {
       notify("warning", "댓글을 입력해주세요.");
       return;
     }
-    console.log("요청 전송:", { postId, comment, profileImg, nickname });
     mutate({ postId, comment, profileImg, nickname });
   };
 

@@ -48,7 +48,7 @@ const Search = () => {
       setSearchResult([]);
       setLoading(false);
     }
-  }, [keyword, data]);
+  }, [keyword]);
 
   useEffect(() => {
     return () => {

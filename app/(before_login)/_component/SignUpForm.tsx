@@ -18,6 +18,7 @@ import Image from "next/image";
 import Input from "@/components/UI/Input";
 import Link from "next/link";
 import Textarea from "@/components/UI/Textarea";
+import Button from "@/components/UI/Button";
 
 interface IUserInfo {
   email: string;
@@ -204,7 +205,7 @@ const SignUpForm = () => {
           />
           <Textarea
             placeholder="소개글"
-            className="h-[170px]"
+            className="h-[170px] bg-secondary text-white"
             required
             value={bio}
             onChange={(e) => setBio(e.target.value)}
@@ -214,12 +215,12 @@ const SignUpForm = () => {
           <Link href="/" className="w-[45%] text-center border rounded-md py-1">
             돌아가기
           </Link>
-          <button
+          <Button
             type="submit"
             className="w-[45%] text-center border rounded-md py-1"
           >
             가입하기
-          </button>
+          </Button>
         </div>
       </form>
     </div>
