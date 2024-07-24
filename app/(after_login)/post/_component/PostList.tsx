@@ -47,6 +47,8 @@ const PostList = () => {
     useInfiniteQuery({
       queryKey: ["feeds"],
       queryFn: getPosts,
+      staleTime: 1000 * 60 * 1,
+      gcTime: 1000 * 60 * 1,
       initialPageParam: null,
       getNextPageParam: (lastPage) => lastPage?.lastVisible || null,
     });
