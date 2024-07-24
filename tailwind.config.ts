@@ -36,7 +36,7 @@ const config: Config = {
       },
       animation: {
         spinner: "spinner 1.5s linear infinite",
-        fadeOut: "fadeOut 0.3s linear forwards",
+        fadeOut: "fadeOut 0.5s linear forwards",
       },
     },
   },
