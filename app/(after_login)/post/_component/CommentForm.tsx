@@ -8,7 +8,7 @@ import Input from "@/components/UI/Input";
 import Button from "@/components/UI/Button";
 import { FiSend } from "react-icons/fi";
 import Image from "next/image";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 type Props = { profileImg: string; postId: string; nickname: string };
@@ -30,17 +30,24 @@ const CommentForm = ({ profileImg, postId, nickname }: Props) => {
     nickname,
   }: CommentProps) => {
     const postRef = doc(db, "feeds", postId);
-    await updateDoc(postRef, {
-      comment: arrayUnion({
-        id: uuidv4(),
-        profileImg,
-        userId: nickname,
-        content: comment,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      }),
-      commentCount: increment(1),
-    });
+    console.log("Updating doc:", postRef);
+
+    try {
+      await updateDoc(postRef, {
+        comment: arrayUnion({
+          id: uuidv4(),
+          profileImg,
+          userId: nickname,
+          content: comment,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+        commentCount: increment(1),
+      });
+      console.log("댓글 등록 성공:", postRef);
+    } catch (error) {
+      console.error("댓글 등록 실패:", error);
+    }
   };
 
   const { mutate } = useMutation({
@@ -49,18 +56,22 @@ const CommentForm = ({ profileImg, postId, nickname }: Props) => {
       queryClient.invalidateQueries({ queryKey: ["feeds", postId] });
       queryClient.invalidateQueries({ queryKey: ["feeds"] });
       setComment("");
+      console.log("댓글 등록 성공 후 초기화:", comment);
     },
-    onError: () => {
+    onError: (error) => {
+      console.error("Error adding comment:", error);
       notify("error", "댓글 작성에 실패했습니다.");
     },
   });
 
-  const handleComment = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleComment = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (comment.trim() === "") {
       notify("warning", "댓글을 입력해주세요.");
       return;
     }
+    console.log("요청 전송:", { postId, comment, profileImg, nickname });
     mutate({ postId, comment, profileImg, nickname });
   };
 
