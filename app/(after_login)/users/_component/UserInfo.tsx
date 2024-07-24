@@ -208,7 +208,7 @@ const UserInfo = ({ userId }: Props) => {
           </Button>
         </div>
       </div>
-      {curUser !== user?.nickname ? (
+      {curUser !== user?.nickname && (
         <div className="flex gap-3 justify-between items-center">
           <Button variant="followButton" onClick={() => mutation.mutate()}>
             {isFollowing ? "팔로우 끊기" : "팔로우"}
@@ -217,7 +217,7 @@ const UserInfo = ({ userId }: Props) => {
             메시지
           </Button>
         </div>
-      ) : null}
+      )}
       <div>{user?.bio}</div>
     </div>
   );
