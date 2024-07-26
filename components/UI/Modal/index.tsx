@@ -25,8 +25,10 @@ const variants = {
   edit: "",
   detail_menu: "",
   comment_menu: "",
-  following: "w-[200px] h-[200px] border bg-white rounded-md p-3",
-  follower: "w-[200px] h-[200px] border bg-white rounded-md p-3",
+  following:
+    "w-[273px] min-h-[298px] max-h-[324px] overflow-auto scrollbar-hide border bg-white rounded-md p-3",
+  follower:
+    "w-[273px] min-h-[298px] max-h-[324px] overflow-auto scrollbar-hide border bg-white rounded-md p-3",
 };
 
 const Modal = ({

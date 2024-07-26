@@ -17,11 +17,11 @@ const FollowingList = () => {
 
   return (
     <div>
-      <h2>팔로잉 목록</h2>
-      <ul>
+      <h2 className="text-center font-bold mb-3">팔로잉</h2>
+      <ul className="flex flex-col gap-2">
         {following && following.length > 0 ? (
           following.map((user) => (
-            <li key={user.id} className="flex items-center">
+            <li key={user.id} className="flex items-center gap-1">
               <Image
                 src={user.profileImg}
                 alt={user.nickname}

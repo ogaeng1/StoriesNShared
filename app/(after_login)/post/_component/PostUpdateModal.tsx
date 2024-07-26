@@ -17,6 +17,7 @@ import {
 } from "firebase/storage";
 import { db, storage } from "@/firebase/firebase";
 import { notify } from "@/components/UI/Toast";
+import Input from "@/components/UI/Input";
 
 type Props = { putModal: boolean; setPutModal: (putModal: boolean) => void };
 
@@ -136,14 +137,14 @@ const PostUpdateModal = ({
   return (
     <div className="z-[9999] fixed w-[100vw] h-screen flex justify-center items-center top-0 left-0 right-0 bottom-0">
       <form
-        className="h-[680px] max-w-[620px] min-w-[437px] p-[2rem] border rounded-md bg-blue-200 flex flex-col"
+        className="min-w-[437px] p-[1rem] border rounded-md bg-secondary flex flex-col"
         onSubmit={postUpdate}
       >
-        <div className="flex justify-end">
-          <Button onClick={() => setPutModal(!putModal)}>❌</Button>
+        <div className="text-white">
+          <Button onClick={() => setPutModal(!putModal)}>✖</Button>
         </div>
         <Textarea
-          className="h-[270px] my-2"
+          className="h-[270px] my-2 text-black"
           placeholder="나의 이야기를 공유해 보세요."
           required
           value={content}
@@ -151,7 +152,10 @@ const PostUpdateModal = ({
         />
         <div className="flex gap-3">
           {existingImages.map((img, idx) => (
-            <div key={img} className="relative w-[64px] h-[64px] rounded-md">
+            <div
+              key={img}
+              className="relative w-[64px] h-[64px] rounded-md my-2"
+            >
               <Image
                 src={img}
                 alt="업로드 이미지"
@@ -167,7 +171,7 @@ const PostUpdateModal = ({
           {selectedImages.map((file, idx) => (
             <div
               key={URL.createObjectURL(file)}
-              className="relative w-[64px] h-[64px] rounded-md"
+              className="relative w-[64px] h-[64px] rounded-md my-2"
             >
               <Image
                 src={URL.createObjectURL(file)}
@@ -189,16 +193,19 @@ const PostUpdateModal = ({
           htmlFor="profile-img"
           className="flex justify-center border rounded p-1 hover:cursor-pointer"
         >
-          <input
+          <Input
             type="file"
             accept="image/*"
             className="hidden"
             id="profile-img"
             onChange={postImgUpload}
           />
-          📷 사진 올리기
+          사진 올리기
         </label>
-        <Button type="submit" className="h-10 border mt-5">
+        <Button
+          type="submit"
+          className="h-10 border mt-3 rounded-md text-white"
+        >
           수정
         </Button>
       </form>

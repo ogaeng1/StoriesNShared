@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, FormEvent } from "react";
+import React, { useState, useEffect, FormEvent, useRef } from "react";
 import { sendMessage, subscribeToMessages } from "@/utils/sendMessage";
 import { readMessageMark } from "@/utils/readMessageMark";
 import { auth, db } from "@/firebase/firebase";
@@ -31,6 +31,7 @@ const ChattingRoom = () => {
     nickname: string;
     profileImg: string;
   } | null>(null);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const { id } = useParams();
 
   useEffect(() => {
@@ -59,6 +60,12 @@ const ChattingRoom = () => {
       return () => unsubscribe();
     }
   }, [id]);
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   useEffect(() => {
     const markAllMessagesAsRead = async () => {
@@ -97,13 +104,13 @@ const ChattingRoom = () => {
 
   return (
     <>
-      <div className="flex justify-center min-w-[437px] min-h-[100vh] h-full">
+      <div className="flex justify-center min-w-[437px] h-screen">
         <div className="flex-col flex items-center justify-center">
           <Navbar />
           <Container>
             <ChattingRoomHeader />
             <hr />
-            <div className="min-h-[80%] overflow-auto scrollbar-hide">
+            <div className="min-h-[85%] overflow-auto scrollbar-hide">
               {Object.entries(groupedMessages).map(([date, messages]) => (
                 <div key={date}>
                   <div className="text-center my-5">
@@ -129,10 +136,13 @@ const ChattingRoom = () => {
                           className="rounded-[50%] border mr-2"
                         />
                       )}
-                      <div>
-                        <strong>{message.sender}</strong>
+                      <div className="">
+                        <div>
+                          {message.sender !== userProfile?.nickname &&
+                            message.sender}
+                        </div>
                         <div
-                          className={`p-2 rounded-lg max-w-80 break-words ${
+                          className={`p-2 rounded-lg break-words max-w-60 ${
                             message.sender === userProfile?.nickname
                               ? "bg-tertiary"
                               : "bg-secondary"
@@ -147,13 +157,14 @@ const ChattingRoom = () => {
                           alt="프로필 이미지"
                           width={36}
                           height={36}
-                          className="rounded-[50%] border ml-2"
+                          className="rounded-[50%] border ml-2 mb-3"
                         />
                       )}
                     </div>
                   ))}
                 </div>
               ))}
+              <div ref={messagesEndRef} />
             </div>
             <form
               onSubmit={handleSendMessage}

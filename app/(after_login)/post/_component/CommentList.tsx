@@ -193,7 +193,7 @@ const CommentList = ({ postId }: Props) => {
                       });
                     }
                   }}
-                  className="border p-1"
+                  className="border p-1 bg-secondary text-white"
                 />
                 <Button
                   onClick={() =>
