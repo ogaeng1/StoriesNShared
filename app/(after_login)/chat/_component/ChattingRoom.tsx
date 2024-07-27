@@ -31,7 +31,6 @@ const ChattingRoom = () => {
     nickname: string;
     profileImg: string;
   } | null>(null);
-  const [firstMessageSent, setFirstMessageSent] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const { id } = useParams();
 
@@ -97,9 +96,6 @@ const ChattingRoom = () => {
         userProfile?.profileImg as string,
         newMessage.trim()
       );
-      if (!firstMessageSent) {
-        setFirstMessageSent(true);
-      }
     }
     setNewMessage("");
   };
@@ -118,13 +114,11 @@ const ChattingRoom = () => {
               {Object.entries(groupedMessages).map(
                 ([date, messages], index) => (
                   <React.Fragment key={date}>
-                    {(!firstMessageSent || index === 0) && (
-                      <div className="text-center my-5">
-                        <span className="bg-secondary rounded-2xl px-3 py-1">
-                          {date}
-                        </span>
-                      </div>
-                    )}
+                    <div className="text-center my-5">
+                      <span className="bg-secondary rounded-2xl px-3 py-1">
+                        {date}
+                      </span>
+                    </div>
                     {messages.map((message: DocumentData) => (
                       <div
                         key={message.id}
