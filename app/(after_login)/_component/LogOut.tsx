@@ -13,7 +13,6 @@ const LogoutButton = () => {
   const userSignOut = async () => {
     await signOut(auth);
     setIsOpen(!isOpen);
-    alert("로그아웃 함");
     router.push("/");
   };
 
@@ -21,7 +20,7 @@ const LogoutButton = () => {
     <Button
       type="button"
       variant="primary"
-      className="border p-2"
+      className="border p-2 rounded-md"
       onClick={userSignOut}
     >
       로그아웃

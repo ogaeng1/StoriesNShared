@@ -20,7 +20,7 @@ interface ModalState extends HTMLAttributes<HTMLDivElement> {
 }
 
 const variants = {
-  menu: "w-[200px] h-[200px] border bg-white rounded-md p-3",
+  menu: "w-[237px] h-[147px] border bg-secondary text-white rounded-md p-3",
   new: "",
   edit: "",
   detail_menu: "",

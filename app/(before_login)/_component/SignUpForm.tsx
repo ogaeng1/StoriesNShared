@@ -19,6 +19,7 @@ import Input from "@/components/UI/Input";
 import Link from "next/link";
 import Textarea from "@/components/UI/Textarea";
 import Button from "@/components/UI/Button";
+import { notify } from "@/components/UI/Toast";
 
 interface IUserInfo {
   email: string;
@@ -92,13 +93,8 @@ const SignUpForm = () => {
   const SubmitSignUp = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!profileImg) {
-      alert("프로필 사진은 필수입니다.");
-      return;
-    }
-
-    if (!email || !password || !nickname || !bio) {
-      alert("모든 항목 입력은 필수입니다.");
+    if (!profileImg || !email || !password || !nickname || !bio) {
+      notify("error", "모든 항목은 필수입니다.");
       return;
     }
 
@@ -115,23 +111,23 @@ const SignUpForm = () => {
     const nicknameQuery = await getDocs(nicknameValid);
 
     if (!emailQuery.empty && !nicknameQuery.empty) {
-      alert("중복된 이메일과 닉네임이 존재합니다.");
+      notify("error", "이미 사용중인 이메일입니다.");
       return;
     }
 
     if (!emailQuery.empty) {
-      alert("중복된 이메일이 존재합니다.");
+      notify("error", "이미 사용중인 이메일입니다.");
       return;
     }
 
     if (!nicknameQuery.empty) {
-      alert("중복된 닉네임이 존재합니다.");
+      notify("error", "이미 사용중인 닉네임입니다.");
       return;
     }
 
     const userInfo = { email, password, nickname, profileImg, bio };
     await userSignUp(userInfo);
-    alert("가입을 축하합니다.");
+    notify("success", `${nickname}님, 환영합니다!`);
     setProfileImg(null);
     setProfile(null);
     setEmail("");
@@ -199,6 +195,7 @@ const SignUpForm = () => {
             type="text"
             placeholder="닉네임"
             value={nickname}
+            maxLength={12}
             className="w-[377px] h-[55px] py-[16px] px-3 bg-secondary text-white"
             required
             onChange={(e) => setNickname(e.target.value)}

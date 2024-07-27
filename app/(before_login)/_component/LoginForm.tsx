@@ -7,6 +7,7 @@ import { auth } from "@/firebase/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { FormEvent } from "react";
 import SocialLogin from "./SocialLogin";
+import { notify } from "@/components/UI/Toast";
 
 const LoginForm = () => {
   const { email, password, setEmail, setPassword } = useLoginStore();
@@ -16,9 +17,8 @@ const LoginForm = () => {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      alert("로그인 성공");
     } catch (err) {
-      alert("이메일과 비밀번호를 확인하세요.");
+      notify("error", "이메일과 비밀번호를 확인하세요.");
     }
   };
 

@@ -112,7 +112,7 @@ const ChattingRoom = () => {
             <hr />
             <div className="min-h-[85%] overflow-auto scrollbar-hide">
               {Object.entries(groupedMessages).map(([date, messages]) => (
-                <div key={date}>
+                <React.Fragment key={date}>
                   <div className="text-center my-5">
                     <span className="bg-secondary rounded-2xl px-3 py-1">
                       {date}
@@ -162,7 +162,7 @@ const ChattingRoom = () => {
                       )}
                     </div>
                   ))}
-                </div>
+                </React.Fragment>
               ))}
               <div ref={messagesEndRef} />
             </div>
