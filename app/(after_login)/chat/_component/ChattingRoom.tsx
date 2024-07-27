@@ -31,6 +31,7 @@ const ChattingRoom = () => {
     nickname: string;
     profileImg: string;
   } | null>(null);
+  const [firstMessageSent, setFirstMessageSent] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const { id } = useParams();
 
@@ -96,6 +97,9 @@ const ChattingRoom = () => {
         userProfile?.profileImg as string,
         newMessage.trim()
       );
+      if (!firstMessageSent) {
+        setFirstMessageSent(true);
+      }
     }
     setNewMessage("");
   };
@@ -111,59 +115,63 @@ const ChattingRoom = () => {
             <ChattingRoomHeader />
             <hr />
             <div className="min-h-[85%] overflow-auto scrollbar-hide">
-              {Object.entries(groupedMessages).map(([date, messages]) => (
-                <React.Fragment key={date}>
-                  <div className="text-center my-5">
-                    <span className="bg-secondary rounded-2xl px-3 py-1">
-                      {date}
-                    </span>
-                  </div>
-                  {messages.map((message: DocumentData) => (
-                    <div
-                      key={message.id}
-                      className={`flex items-center mb-2 ${
-                        message.sender === userProfile?.nickname
-                          ? "justify-end"
-                          : "justify-start"
-                      }`}
-                    >
-                      {message.sender !== userProfile?.nickname && (
-                        <Image
-                          src={message.senderProfileImg}
-                          alt="프로필 이미지"
-                          width={36}
-                          height={36}
-                          className="rounded-[50%] border mr-2"
-                        />
-                      )}
-                      <div className="">
-                        <div>
-                          {message.sender !== userProfile?.nickname &&
-                            message.sender}
-                        </div>
-                        <div
-                          className={`p-2 rounded-lg break-words max-w-60 ${
-                            message.sender === userProfile?.nickname
-                              ? "bg-tertiary"
-                              : "bg-secondary"
-                          }`}
-                        >
-                          {message.text}
-                        </div>
+              {Object.entries(groupedMessages).map(
+                ([date, messages], index) => (
+                  <React.Fragment key={date}>
+                    {(!firstMessageSent || index === 0) && (
+                      <div className="text-center my-5">
+                        <span className="bg-secondary rounded-2xl px-3 py-1">
+                          {date}
+                        </span>
                       </div>
-                      {message.sender === userProfile?.nickname && (
-                        <Image
-                          src={message.senderProfileImg}
-                          alt="프로필 이미지"
-                          width={36}
-                          height={36}
-                          className="rounded-[50%] border ml-2 mb-3"
-                        />
-                      )}
-                    </div>
-                  ))}
-                </React.Fragment>
-              ))}
+                    )}
+                    {messages.map((message: DocumentData) => (
+                      <div
+                        key={message.id}
+                        className={`flex items-center mb-2 ${
+                          message.sender === userProfile?.nickname
+                            ? "justify-end"
+                            : "justify-start"
+                        }`}
+                      >
+                        {message.sender !== userProfile?.nickname && (
+                          <Image
+                            src={message.senderProfileImg}
+                            alt="프로필 이미지"
+                            width={36}
+                            height={36}
+                            className="rounded-[50%] border mr-2"
+                          />
+                        )}
+                        <div className="">
+                          <div>
+                            {message.sender !== userProfile?.nickname &&
+                              message.sender}
+                          </div>
+                          <div
+                            className={`p-2 rounded-lg break-words max-w-60 ${
+                              message.sender === userProfile?.nickname
+                                ? "bg-tertiary"
+                                : "bg-secondary"
+                            }`}
+                          >
+                            {message.text}
+                          </div>
+                        </div>
+                        {message.sender === userProfile?.nickname && (
+                          <Image
+                            src={message.senderProfileImg}
+                            alt="프로필 이미지"
+                            width={36}
+                            height={36}
+                            className="rounded-[50%] border ml-2 mb-3"
+                          />
+                        )}
+                      </div>
+                    ))}
+                  </React.Fragment>
+                )
+              )}
               <div ref={messagesEndRef} />
             </div>
             <form
