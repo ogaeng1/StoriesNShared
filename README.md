@@ -1,3 +1,7 @@
+👉 [서비스 바로가기](https://blog-ogaeng1.vercel.app/)
+<br />
+<br />
+
 ## 1. 서비스 개요
 ### 📖 나의 이야기를 공유할 수 있는 SNS 서비스입니다.
 ### 다른 사람들의 이야기를 보면서 공감하고, 대화도 나누어보세요
@@ -19,24 +23,73 @@
 <strong>서비스 아키텍처</strong>
 <br />
 <br />
-![arch](https://github.com/user-attachments/assets/c5856032-ec69-44c2-8e2a-07d18ba48c4c)
+![아키텍처](https://github.com/user-attachments/assets/36ff50f9-b242-4669-8f82-9e97985834bb)
+
 
 <br />
 <br />
 <br />
 
 ## 3. 폴더 구조
-추후 추가 예정
+```
+📁 Root
+├──📁 public
+│   ├──📁assets
+│   │   ├──📁icons
+│   │   └──📁images
+├──📁 app                            # 라우팅 폴더
+│   ├──📁(afterLogin)                # 그룹 라우팅
+│   │   ├──📁 @modal                 # parellel routing
+│   │   │   └──📁(.)post             # intercepting routing
+│   │   │        └──📁[id]
+│   │   ├──📁_component
+│   │   ├──📁chat
+│   │   │   ├──📁[id]
+│   │   │   └──📁_component
+│   │   ├──📁follow-feeds
+│   │   │   ├──📁[id]
+│   │   │   └──📁_component
+│   │   ├──📁post
+│   │   │   ├──📁[id]
+│   │   │   └──📁_component
+│   │   ├──📁search-user
+│   │   │   └──📁_component
+│   │   ├──📁users
+│   │   │   ├──📁[id]
+│   │   │   └──📁_component
+│   ├──📁(beforeLogin)
+│   │   ├──📁_component
+│   │   └──📁signup
+│   │       └──📁_component
+│   ├──📁 components                  # 공통 컴포넌트
+│   ├   ├──📁Icon                 
+│   │   └──📁Ui
+│   ├──📁 firebase                    # 파이어베이스 셋팅
+│   ├──📁 store                       # zustand 상태 관리
+│   ├──📁 utils                       # 재사용 유틸 함수
+│   ├──📁 service                     # API 연동 및 비동기 작업 관련 함수 관리
+│   │   └──📁 hooks                   # 커스텀 훅
+│   ├──📄 App.tsx
+├──📄 .env
+└──📄 README.md
+```
+
 
 <br />
 <br />
 <br />
 
 ## 4. 기능 소개
-<li>로그인/회원가입/로그아웃</li>
-<li>게시글 및 댓글 CRUD</li>
-<li>상세페이지</li>
-<li>팔로우/언팔로우</li>
-<li>팔로워/팔로잉 유저 목록</li>
-<li>팔로우하고있는 유저 게시글 페이지</li>
-<li>1:1 채팅</li>
+|로그인|회원가입|홈|게시글 생성|
+|------|---|--|--|
+|![login](https://github.com/user-attachments/assets/bf8e13be-fa27-4749-84c8-3e97b22a7bf2)|![signup](https://github.com/user-attachments/assets/0a15da68-a5e0-41db-9df4-f63eb5d165cf)|![home](https://github.com/user-attachments/assets/ebe5bdac-67a8-4b5e-b2dd-6b57fc53f864)|![posting](https://github.com/user-attachments/assets/c3da69ca-8bf2-44c8-87a6-691b9afc64b1)|
+
+|상세 페이지|게시글 수정/삭제|게시글 좋아요|댓글 수정/삭제|
+|------|---|--|--|
+|![detail](https://github.com/user-attachments/assets/54712327-d48a-4cef-8735-c983b96f1179)|![post_d_u](https://github.com/user-attachments/assets/34b0efae-4ac6-4817-bfb4-5619713eaa0b)|![like](https://github.com/user-attachments/assets/a001b6f0-0ec0-4dd5-bdb9-78f6c0985b67)|![comment](https://github.com/user-attachments/assets/65b11087-dda9-4fcf-aad8-aa90e21f8454)|
+
+|유저 검색|팔로잉 유저 게시글|채팅|유저 정보/팔로우|
+|------|---|--|--|
+|![search](https://github.com/user-attachments/assets/148fd697-e44c-43d2-9563-70fe1d8aef8e)|![follow-feed](https://github.com/user-attachments/assets/cf2ce858-c2fb-4d8e-a765-0718662725de)|![chatting](https://github.com/user-attachments/assets/1c08a9d4-a01e-488e-bdc2-155f679a3982)|![following](https://github.com/user-attachments/assets/385465a8-b040-4bd6-8892-234052c699f5)|
+
+
