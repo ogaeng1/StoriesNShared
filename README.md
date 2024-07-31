@@ -1,4 +1,5 @@
-👉 [서비스 바로가기](https://blog-ogaeng1.vercel.app/)
+👉 [서비스 바로가기](https://blog-ogaeng1.vercel.app/) <br />
+👉 [기술적 의사결정 및 구현 기능](https://storiesnshared.gitbook.io/storiesnshared/)
 <br />
 <br />
 
