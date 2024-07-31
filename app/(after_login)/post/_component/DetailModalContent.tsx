@@ -23,6 +23,7 @@ import DetailMenuModal from "./DetailMenuModal";
 import CommentForm from "./CommentForm";
 import CommentList from "./CommentList";
 import { notify } from "@/components/UI/Toast";
+import { useGetPost } from "@/service/hooks/usePostDetail";
 
 const DetailModalContent = () => {
   const [nickname, setNickname] = useState("");
@@ -36,10 +37,7 @@ const DetailModalContent = () => {
     router.back();
   };
 
-  const { data } = useQuery({
-    queryKey: ["feeds", id],
-    queryFn: getPostById,
-  });
+  const { postDetail } = useGetPost(id as string);
 
   const likeMutation = useMutation({
     mutationFn: postLike,
@@ -98,9 +96,9 @@ const DetailModalContent = () => {
     }
   };
 
-  const isLiked = data?.likeUser?.includes(nickname);
+  const isLiked = postDetail?.likeUser?.includes(nickname);
 
-  const comments = data?.comment ?? [];
+  const comments = postDetail?.comment ?? [];
 
   const detailMenuRef = useRef<HTMLDivElement>(null);
 
@@ -152,7 +150,7 @@ const DetailModalContent = () => {
             <div className="flex items-center gap-3">
               <div className="w-[42px] h-[42px] rounded-[50%]">
                 <Image
-                  src={data?.userProfileImg}
+                  src={postDetail?.userProfileImg}
                   alt="게시글 작성자 프로필 사진"
                   width={42}
                   height={42}
@@ -160,13 +158,13 @@ const DetailModalContent = () => {
                 />
               </div>
               <div>
-                <div className="font-bold">{data?.userId}</div>
+                <div className="font-bold">{postDetail?.userId}</div>
                 <div className="text-slate-400">
-                  {getCreatedAt(data?.createdAt.seconds)}
+                  {getCreatedAt(postDetail?.createdAt.seconds)}
                 </div>
               </div>
             </div>
-            {nickname === data?.userId && (
+            {nickname === postDetail?.userId && (
               <div className="relative flex items-center justify-center">
                 <Button
                   className="text-[30px]"
@@ -181,8 +179,8 @@ const DetailModalContent = () => {
                   <div ref={detailMenuRef} className="absolute top-8 right-2">
                     <DetailMenuModal
                       postId={id as string}
-                      postImg={data?.postImg}
-                      defaultContent={data?.content}
+                      postImg={postDetail?.postImg}
+                      defaultContent={postDetail?.content}
                     />
                   </div>
                 )}
@@ -190,7 +188,7 @@ const DetailModalContent = () => {
             )}
           </div>
         </div>
-        <div className="mt-5 px-3">{data?.content}</div>
+        <div className="mt-5 px-3">{postDetail?.content}</div>
         <div className="flex my-3 px-3">
           <Swiper
             modules={[Pagination]}
@@ -198,7 +196,7 @@ const DetailModalContent = () => {
             pagination={{ type: "bullets" }}
             className="rounded-md"
           >
-            {data?.postImg.map((img: any) => (
+            {postDetail?.postImg.map((img: any) => (
               <SwiperSlide key={img} className="w-[411px]">
                 <Image
                   src={img}
@@ -219,7 +217,7 @@ const DetailModalContent = () => {
               <IoMdHeartEmpty />
             )}
           </Button>
-          <div>{data?.likeCount}</div>
+          <div>{postDetail?.likeCount}</div>
         </div>
         <div className="flex items-center gap-2 mt-3 px-3">
           <div>댓글</div>

@@ -29,12 +29,20 @@ const ChattingList = () => {
     const fetchUserNickname = async () => {
       const user = auth.currentUser;
       if (user) {
-        const q = query(collection(db, "users"), where("id", "==", user.uid));
-        const querySnapshot = await getDocs(q);
-        if (!querySnapshot.empty) {
-          const userDoc = querySnapshot.docs[0];
-          setUserNickname(userDoc.data().nickname);
-        }
+        try {
+          const q = query(collection(db, "users"), where("id", "==", user.uid));
+          const querySnapshot = await getDocs(q);
+          if (!querySnapshot.empty) {
+            const userDoc = querySnapshot.docs[0];
+            const nickname = userDoc.data().nickname;
+            if (nickname) {
+              setUserNickname(nickname);
+            } else {
+              console.error("Nickname is undefined or empty.");
+            }
+          } else {
+          }
+        } catch (error) {}
       }
     };
 
@@ -44,31 +52,50 @@ const ChattingList = () => {
   useEffect(() => {
     const fetchChatRooms = async () => {
       if (userNickname) {
-        const rooms = await getInvolveChatRoom(userNickname);
-        const roomsWithProfiles = await Promise.all(
-          rooms.map(async (room) => {
-            const opponentNickname = room.participants.find(
-              (p) => p !== userNickname
-            );
-            const opponentProfile = await getUserProfile(opponentNickname!);
+        try {
+          const rooms = await getInvolveChatRoom(userNickname);
+          const roomsWithProfiles = await Promise.all(
+            rooms.map(async (room) => {
+              const opponentNickname = room.participants.find(
+                (p) => p !== userNickname
+              );
+              if (opponentNickname) {
+                try {
+                  const opponentProfile = await getUserProfile(
+                    opponentNickname
+                  );
 
-            // Fetch all messages and filter unread messages
-            const messagesQuery = query(
-              collection(db, "chatting", room.id, "messages")
-            );
-            const messagesSnapshot = await getDocs(messagesQuery);
-            const unreadCount = messagesSnapshot.docs.filter(
-              (doc) => !doc.data().readBy.includes(userNickname)
-            ).length;
+                  // Fetch all messages and filter unread messages
+                  const messagesQuery = query(
+                    collection(db, "chatting", room.id, "messages")
+                  );
+                  const messagesSnapshot = await getDocs(messagesQuery);
+                  const unreadCount = messagesSnapshot.docs.filter(
+                    (doc) => !doc.data().readBy.includes(userNickname)
+                  ).length;
 
-            return {
-              ...room,
-              opponentProfileImg: opponentProfile.profileImg,
-              unreadCount,
-            };
-          })
-        );
-        setChatRooms(roomsWithProfiles);
+                  return {
+                    ...room,
+                    opponentProfileImg: opponentProfile.profileImg,
+                    unreadCount,
+                  };
+                } catch (error) {
+                  console.error(
+                    `Error fetching profile for ${opponentNickname}:`,
+                    error
+                  );
+                }
+              } else {
+              }
+            })
+          );
+          setChatRooms(
+            roomsWithProfiles.filter(
+              (room): room is ChatRoomWithProfile => room !== undefined
+            )
+          );
+        } catch (error) {}
+      } else {
       }
     };
 

@@ -15,9 +15,13 @@ const FollowerList = () => {
     queryFn: () => getFollowerList(id as string),
   });
 
+  if (isLoading) {
+    <div className="flex justify-center items-center">불러오는중..</div>;
+  }
+
   return (
     <div>
-      <div className="text-center font-bold mb-3">팔로워 목록</div>
+      <div className="text-center font-bold mb-3">팔로워</div>
       <ul className="flex flex-col gap-2">
         {follower && follower.length > 0 ? (
           follower.map((user) => (
@@ -32,7 +36,7 @@ const FollowerList = () => {
             </li>
           ))
         ) : (
-          <p>팔로잉 목록이 없습니다.</p>
+          <p>팔로워 목록이 없습니다.</p>
         )}
       </ul>
     </div>

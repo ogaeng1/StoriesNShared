@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState, useEffect, FormEvent, useRef } from "react";
 import { sendMessage, subscribeToMessages } from "@/utils/sendMessage";
 import { readMessageMark } from "@/utils/readMessageMark";
@@ -22,7 +21,6 @@ import Container from "../../_component/Container";
 import ModalType from "../../_component/ModalType";
 import Navbar from "@/components/Navbar";
 import useModal from "@/store/modal";
-
 const ChattingRoom = () => {
   const { isOpen } = useModal();
   const [messages, setMessages] = useState<DocumentData[]>([]);
@@ -38,15 +36,21 @@ const ChattingRoom = () => {
     const fetchUserProfile = async () => {
       const user = auth.currentUser;
       if (user) {
-        const q = query(collection(db, "users"), where("id", "==", user.uid));
-        const querySnapshot = await getDocs(q);
-        if (!querySnapshot.empty) {
-          const userDoc = querySnapshot.docs[0];
-          const userData = userDoc.data();
-          setUserProfile({
-            nickname: userData.nickname,
-            profileImg: userData.profileImg,
-          });
+        try {
+          const q = query(collection(db, "users"), where("id", "==", user.uid));
+          const querySnapshot = await getDocs(q);
+          if (!querySnapshot.empty) {
+            const userDoc = querySnapshot.docs[0];
+            const userData = userDoc.data();
+            setUserProfile({
+              nickname: userData.nickname,
+              profileImg: userData.profileImg,
+            });
+          } else {
+            console.error("User document not found.");
+          }
+        } catch (error) {
+          console.error("Error fetching user profile:", error);
         }
       }
     };
@@ -60,13 +64,11 @@ const ChattingRoom = () => {
       return () => unsubscribe();
     }
   }, [id]);
-
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
-
   useEffect(() => {
     const markAllMessagesAsRead = async () => {
       if (id && userProfile?.nickname) {
@@ -81,13 +83,11 @@ const ChattingRoom = () => {
         }
       }
     };
-
     markAllMessagesAsRead();
   }, [id, messages, userProfile]);
 
   const handleSendMessage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const user = auth.currentUser;
     if (user && newMessage.trim()) {
       await sendMessage(
@@ -190,5 +190,4 @@ const ChattingRoom = () => {
     </>
   );
 };
-
 export default ChattingRoom;
