@@ -33,6 +33,7 @@ const LoginForm = () => {
           placeholder="이메일"
           className="w-[377px] h-[55px] py-[16px] px-3 bg-secondary text-white"
           value={email}
+          id="login-email"
           onChange={(e) => setEmail(e.target.value)}
         />
         <Input
@@ -40,9 +41,10 @@ const LoginForm = () => {
           placeholder="비밀번호"
           className="w-[377px] h-[55px] py-[16px] px-3 bg-secondary text-white"
           value={password}
+          id="login-password"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button type="submit" variant="login_btn">
+        <Button type="submit" variant="login_btn" id="login_btn">
           로그인
         </Button>
       </form>

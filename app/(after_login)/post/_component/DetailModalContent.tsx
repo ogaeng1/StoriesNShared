@@ -38,6 +38,7 @@ const DetailModalContent = () => {
   };
 
   const { postDetail } = useGetPost(id as string);
+  console.log(postDetail);
 
   const likeMutation = useMutation({
     mutationFn: postLike,

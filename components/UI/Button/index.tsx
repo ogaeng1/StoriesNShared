@@ -45,6 +45,7 @@ export default function Button({
       className={`${variants[variant]} ${className}`}
       disabled={disabled}
       id={id}
+      data-testid={variant}
       onClick={onClick}
     >
       {children}

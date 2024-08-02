@@ -179,6 +179,7 @@ const SignUpForm = () => {
             type="email"
             placeholder="이메일"
             value={email}
+            id="input-email"
             className="w-[377px] h-[55px] py-[16px] px-3 bg-secondary text-white"
             required
             onChange={(e) => setEmail(e.target.value)}
@@ -187,6 +188,7 @@ const SignUpForm = () => {
             type="password"
             placeholder="비밀번호"
             value={password}
+            id="input-password"
             className="w-[377px] h-[55px] py-[16px] px-3 bg-secondary text-white"
             required
             onChange={(e) => setPassword(e.target.value)}
@@ -195,6 +197,7 @@ const SignUpForm = () => {
             type="text"
             placeholder="닉네임"
             value={nickname}
+            id="input-nickname"
             maxLength={12}
             className="w-[377px] h-[55px] py-[16px] px-3 bg-secondary text-white"
             required
@@ -205,6 +208,7 @@ const SignUpForm = () => {
             className="h-[170px] bg-secondary text-white"
             required
             value={bio}
+            id="input-bio"
             onChange={(e) => setBio(e.target.value)}
           />
         </div>
@@ -215,6 +219,7 @@ const SignUpForm = () => {
           <Button
             type="submit"
             className="w-[45%] text-center border rounded-md py-1"
+            id="signup-btn"
           >
             가입하기
           </Button>
