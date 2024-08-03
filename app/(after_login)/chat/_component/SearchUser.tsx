@@ -8,11 +8,14 @@ import { useQuery } from "@tanstack/react-query";
 import { getUserSearch } from "@/utils/userQueries";
 import { User } from "../../search-user/_component/types";
 import SearchResult from "./SearchResult";
+import useModal from "@/store/modal";
+import ModalType from "../../_component/ModalType";
 
 const Search = () => {
   const { keyword, setKeyword, reset } = useSearch();
   const [searchResult, setSearchResult] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
+  const { isOpen } = useModal();
 
   const { data } = useQuery<User[]>({
     queryKey: ["users"],
@@ -70,6 +73,8 @@ const Search = () => {
           keyword={keyword}
         />
       </div>
+      <div id="modal" />
+      {isOpen && <ModalType />}
     </div>
   );
 };
