@@ -141,6 +141,7 @@ const NewModalForm = () => {
         className="h-[270px] my-2"
         placeholder="나의 이야기를 공유해 보세요."
         required
+        id="input-content"
         value={content}
         onChange={(e) => setContent(e.target.value)}
       />
@@ -173,7 +174,11 @@ const NewModalForm = () => {
         />
         사진 올리기
       </label>
-      <Button type="submit" className="h-10 border mt-3 rounded-md text-white">
+      <Button
+        type="submit"
+        className="h-10 border mt-3 rounded-md text-white"
+        id="done-post-btn"
+      >
         확인
       </Button>
     </form>

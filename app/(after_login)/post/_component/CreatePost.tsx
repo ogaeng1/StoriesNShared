@@ -8,6 +8,7 @@ const CreatePost = () => {
   return (
     <Button
       className="h-[67px] border rounded-md my-2"
+      id="create-post"
       onClick={() => {
         setIsOpen(!isOpen);
         setType("new");
