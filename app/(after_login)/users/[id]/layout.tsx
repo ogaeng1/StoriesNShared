@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { db } from "@/firebase/firebase";
 import { doc, getDoc, collection } from "firebase/firestore";
 
-export const genereatedMetadata = async ({
+export const generateMetadata = async ({
   params,
 }: {
   params: { id: string };
