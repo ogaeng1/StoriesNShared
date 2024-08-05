@@ -139,9 +139,9 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="h-screen bg-primary flex justify-center items-center text-white">
+    <div className="h-screen bg-primary flex justify-center items-center text-white overflow-hidden">
       <form
-        className="min-w-[377px] border rounded-xl flex flex-col p-12"
+        className="w-full max-w-[417px] sm:max-w-[377px] border rounded-xl flex flex-col p-4 sm:p-6 md:p-8 lg:p-10"
         onSubmit={SubmitSignUp}
       >
         <label htmlFor="profile-img" className="flex justify-center">
@@ -151,7 +151,7 @@ const SignUpForm = () => {
               alt="프로필 이미지"
               width={60}
               height={60}
-              className="hover:cursor-pointer rounded-[50%]"
+              className="hover:cursor-pointer rounded-full"
             />
           ) : (
             <Image
@@ -159,7 +159,7 @@ const SignUpForm = () => {
               alt="기본 프로필 이미지"
               width={60}
               height={60}
-              className="hover:cursor-pointer rounded-[50%]"
+              className="hover:cursor-pointer rounded-full"
             />
           )}
           <Input
@@ -170,17 +170,17 @@ const SignUpForm = () => {
             onChange={profileImgChange}
           />
         </label>
-        <div className="mb-10 flex justify-center">
-          <span className="text-red-600 text-[12px]">*</span>
+        <div className="mb-4 sm:mb-5 md:mb-6 lg:mb-7 flex justify-center">
+          <span className="text-red-600 text-xs">*</span>
           프로필 사진
         </div>
-        <div className="flex flex-col gap-7">
+        <div className="flex flex-col gap-4 sm:gap-5 md:gap-6 lg:gap-7">
           <Input
             type="email"
             placeholder="이메일"
             value={email}
             id="input-email"
-            className="w-[377px] h-[55px] py-[16px] px-3 bg-secondary text-white"
+            className="w-full h-[45px] py-[10px] px-3 bg-secondary text-white"
             required
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -189,7 +189,7 @@ const SignUpForm = () => {
             placeholder="비밀번호"
             value={password}
             id="input-password"
-            className="w-[377px] h-[55px] py-[16px] px-3 bg-secondary text-white"
+            className="w-full h-[45px] py-[10px] px-3 bg-secondary text-white"
             required
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -199,26 +199,26 @@ const SignUpForm = () => {
             value={nickname}
             id="input-nickname"
             maxLength={12}
-            className="w-[377px] h-[55px] py-[16px] px-3 bg-secondary text-white"
+            className="w-full h-[45px] py-[10px] px-3 bg-secondary text-white"
             required
             onChange={(e) => setNickname(e.target.value)}
           />
           <Textarea
             placeholder="소개글"
-            className="h-[170px] bg-secondary text-white"
+            className="h-[100px] bg-secondary text-white"
             required
             value={bio}
             id="input-bio"
             onChange={(e) => setBio(e.target.value)}
           />
         </div>
-        <div className="flex justify-between mt-10">
-          <Link href="/" className="w-[45%] text-center border rounded-md py-1">
+        <div className="flex justify-between mt-4 sm:mt-5 md:mt-6 lg:mt-7">
+          <Link href="/" className="w-[45%] text-center border rounded-md py-2">
             돌아가기
           </Link>
           <Button
             type="submit"
-            className="w-[45%] text-center border rounded-md py-1"
+            className="w-[45%] text-center border rounded-md py-2"
             id="signup-btn"
           >
             가입하기
