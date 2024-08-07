@@ -12,6 +12,7 @@ type ButtonVariants =
 interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   variant?: ButtonVariants;
+  ariaLabel?: string;
 }
 
 const variants = {
@@ -36,6 +37,7 @@ export default function Button({
   variant = "primary",
   className,
   disabled,
+  ariaLabel,
   id,
   onClick,
 }: IButton) {
@@ -47,6 +49,7 @@ export default function Button({
       id={id}
       data-testid={variant}
       onClick={onClick}
+      aria-label={ariaLabel}
     >
       {children}
     </button>

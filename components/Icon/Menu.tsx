@@ -13,6 +13,7 @@ const MenuIcon = () => {
       onClick={() => {
         setIsOpen(!isOpen), setType("menu");
       }}
+      aria-label="menu"
     >
       <HiMenuAlt2 className="text-[32px]" />
     </Button>
