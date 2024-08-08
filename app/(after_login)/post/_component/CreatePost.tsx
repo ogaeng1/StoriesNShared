@@ -7,7 +7,7 @@ const CreatePost = () => {
   const { setType, isOpen, setIsOpen } = useModal();
   return (
     <Button
-      className="h-[50px] border sm:h-[40px] md:h-[47px] border rounded-md my-2 px-4 sm:px-6 md:px-8 text-sm sm:text-base md:text-md"
+      className="h-[50px] sm:h-[40px] md:h-[47px] border rounded-md my-2 px-4 sm:px-6 md:px-8 text-sm sm:text-base md:text-md"
       id="create-post"
       onClick={() => {
         setIsOpen(!isOpen);
