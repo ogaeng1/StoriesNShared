@@ -24,10 +24,10 @@ import CommentForm from "./CommentForm";
 import CommentList from "./CommentList";
 import { notify } from "@/components/UI/Toast";
 import { useGetPost } from "@/service/hooks/usePostDetail";
-import useAuthStore from "@/store/auth";
 
 const DetailModalContent = () => {
-  const { nickname, curProfile, fetchUserData } = useAuthStore();
+  const [nickname, setNickname] = useState("");
+  const [curProfile, setCurProfile] = useState("");
   const { type, setType, isOpen, setIsOpen } = useModal();
   const { id } = useParams();
   const router = useRouter();
@@ -100,9 +100,44 @@ const DetailModalContent = () => {
 
   const comments = postDetail?.comment ?? [];
 
+  const detailMenuRef = useRef<HTMLDivElement>(null);
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      detailMenuRef.current &&
+      !detailMenuRef.current.contains(event.target as Node)
+    ) {
+      setIsOpen(!isOpen);
+    }
+  };
+
   useEffect(() => {
-    fetchUserData();
-  }, [nickname]);
+    if (type === "detail_menu") {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const q = query(collection(db, "users"), where("id", "==", user.uid));
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          const userDoc = querySnapshot.docs[0];
+          setNickname(userDoc.data().nickname || "");
+          setCurProfile(userDoc.data().profileImg || "");
+        }
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <div className="z-[999] fixed w-[100vw] h-screen flex justify-center items-center top-0 left-0 right-0 bottom-0 bg-[rgba(0,0,0,0.4)]">
@@ -141,7 +176,7 @@ const DetailModalContent = () => {
                   <HiOutlineDotsVertical />
                 </Button>
                 {isOpen && type === "detail_menu" && (
-                  <div className="absolute top-8 right-2">
+                  <div ref={detailMenuRef} className="absolute top-8 right-2">
                     <DetailMenuModal
                       postId={id as string}
                       postImg={postDetail?.postImg}
