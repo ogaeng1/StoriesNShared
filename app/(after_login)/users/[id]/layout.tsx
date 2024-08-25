@@ -23,7 +23,7 @@ export const generateMetadata = async ({
     openGraph: {
       title: `프로필 - ${nickname}`,
       description: `${nickname}님의 프로필 페이지입니다.`,
-      url: `https://stories-n-shared.vercel.app/user/${userId}`,
+      url: `https://main.d23r3yoflnaol9.amplifyapp.com/user/${userId}`,
     },
   };
 };
