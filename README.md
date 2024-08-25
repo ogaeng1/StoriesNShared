@@ -1,4 +1,4 @@
-👉 [서비스 바로가기](https://stories-n-shared.vercel.app/) <br />
+👉 [서비스 바로가기](https://main.d23r3yoflnaol9.amplifyapp.com/) <br />
 👉 [기술적 의사결정 및 구현 기능](https://storiesnshared.gitbook.io/storiesnshared/)
 <br />
 <br />
@@ -21,13 +21,14 @@
 ![React Query](https://img.shields.io/badge/-React%20Query-FF4154?style=for-the-badge&logo=react%20query&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![Firebase](https://img.shields.io/badge/firebase-a08021?style=for-the-badge&logo=firebase&logoColor=white)
+![AWS Amplify](https://img.shields.io/badge/Amplify-FF9900?style=for-the-badge&logo=Amplify&logoColor=white)
 <br />
 <br />
 <br />
 <strong>서비스 아키텍처</strong>
 <br />
 <br />
-![아키텍처](https://github.com/user-attachments/assets/36ff50f9-b242-4669-8f82-9e97985834bb)
+![아키텍처](https://github.com/user-attachments/assets/b32e49d7-ad63-4ec2-9a5e-a5fc3dc644c8)
 
 <br />
 <br />
