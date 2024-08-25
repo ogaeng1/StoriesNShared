@@ -2,25 +2,24 @@ name: front-build
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - dev
 
 jobs:
   build:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Source Code
+      - name: "Checkout Source Code"
         uses: actions/checkout@v4
-
-      - name: Setup Node.js
+      - name: "Setup Node.js"
         uses: actions/setup-node@v4
         with:
           node-version: 20
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Set environment variables
+      - name: "Install Dependencies"
+        run: "npm install"
+      - name: "Set environment variables"
         run: |
           echo "NEXT_PUBLIC_API_KEY=${{ secrets.NEXT_PUBLIC_API_KEY }}" >> $GITHUB_ENV
           echo "NEXT_PUBLIC_AUTH_DOMAIN=${{ secrets.NEXT_PUBLIC_AUTH_DOMAIN }}" >> $GITHUB_ENV
@@ -28,43 +27,32 @@ jobs:
           echo "NEXT_PUBLIC_STORAGE_BUCKET=${{ secrets.NEXT_PUBLIC_STORAGE_BUCKET }}" >> $GITHUB_ENV
           echo "NEXT_PUBLIC_MESSAGING_SENDER_ID=${{ secrets.NEXT_PUBLIC_MESSAGING_SENDER_ID }}" >> $GITHUB_ENV
           echo "NEXT_PUBLIC_APP_ID=${{ secrets.NEXT_PUBLIC_APP_ID }}" >> $GITHUB_ENV
-
-      - name: Build Project
-        run: npm run build
-
-      - name: Run Cypress Tests
-        run: npm run cypress:run
+      - name: "Build Project"
+        run: "npm run build"
+      - name: "Run Cypress Tests"
+        run: "npm run cypress:run"
         env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          CYPRESS_RECORD_KEY: "${{ secrets.CYPRESS_RECORD_KEY }}"
           NODE_ENV: test
 
-  push:
-    needs: build
+  merge:
+    if: github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
-    if: ${{ success() }}
-
     steps:
-      - name: Checkout Source Code
+      - name: "Checkout Source Code"
         uses: actions/checkout@v4
-
-      - name: Setup Node.js
+        with:
+          fetch-depth: 0
+      - name: "Setup Node.js"
         uses: actions/setup-node@v4
         with:
           node-version: 20
-
-      - name: Configure Git
+      - name: "Merge dev into main"
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-
-      - name: Commit and Push Changes if there are any
-        run: |
-          git add .
-          if [ -n "$(git status --porcelain)" ]; then
-            git commit -m "Cypress Testing and Build Success"
-            git push origin main
-          else
-            echo "No changes to commit"
-          fi
+          git checkout main
+          git merge dev --no-ff --commit
+          git push origin main
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
