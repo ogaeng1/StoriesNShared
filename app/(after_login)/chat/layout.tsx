@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "StoryNshared",
     description: "대화하고 싶은 사람을 찾고, 대화를 시작하세요.",
-    url: "https://stories-n-shared.vercel.app/",
+    url: "https://main.d23r3yoflnaol9.amplifyapp.com/chat",
   },
 };
 

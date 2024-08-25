@@ -25,7 +25,7 @@ export const generateMetadata = async ({
     openGraph: {
       title,
       description,
-      url: `https://stories-n-shared.vercel.app/chat/${chatId}`,
+      url: `https://main.d23r3yoflnaol9.amplifyapp.com/chat/${chatId}`,
     },
   };
 };

@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "StoryNshared",
     description: "나의 이야기를 공유하고, 다른 사람들과 소통해 보세요.",
-    url: "https://stories-n-shared.vercel.app/",
+    url: "https://main.d23r3yoflnaol9.amplifyapp.com/",
     siteName: "StoryNshared",
     images: [
       {
