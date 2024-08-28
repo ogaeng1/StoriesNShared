@@ -4,14 +4,10 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { useParams, useRouter } from "next/navigation";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getPostById } from "@/utils/getPostDetail";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postLike } from "@/utils/likePost";
 import Button from "@/components/UI/Button";
-import { useEffect, useRef, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { auth, db } from "@/firebase/firebase";
+import { useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import { getCreatedAt } from "@/utils/getCreatedAt";
@@ -23,11 +19,13 @@ import DetailMenuModal from "./DetailMenuModal";
 import CommentForm from "./CommentForm";
 import CommentList from "./CommentList";
 import { notify } from "@/components/UI/Toast";
-import { useGetPost } from "@/service/hooks/usePostDetail";
+import { useGetPost } from "@/services/hooks/usePostDetail";
+import { useUserStore } from "@/store/auth";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/firebase/firebase";
 
 const DetailModalContent = () => {
-  const [nickname, setNickname] = useState("");
-  const [curProfile, setCurProfile] = useState("");
+  const { curUser } = useUserStore();
   const { type, setType, isOpen, setIsOpen } = useModal();
   const { id } = useParams();
   const router = useRouter();
@@ -36,7 +34,6 @@ const DetailModalContent = () => {
   const modalHandler = () => {
     router.back();
   };
-
   const { postDetail } = useGetPost(id as string);
 
   const likeMutation = useMutation({
@@ -91,12 +88,12 @@ const DetailModalContent = () => {
   });
 
   const handleLike = () => {
-    if (nickname) {
-      likeMutation.mutate({ postId: id as string, userId: nickname });
+    if (curUser) {
+      likeMutation.mutate({ postId: id as string, userId: curUser.nickname });
     }
   };
 
-  const isLiked = postDetail?.likeUser?.includes(nickname);
+  const isLiked = postDetail?.likeUser?.includes(curUser?.nickname);
 
   const comments = postDetail?.comment ?? [];
 
@@ -126,18 +123,13 @@ const DetailModalContent = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        const q = query(collection(db, "users"), where("id", "==", user.uid));
-        const querySnapshot = await getDocs(q);
-        if (!querySnapshot.empty) {
-          const userDoc = querySnapshot.docs[0];
-          setNickname(userDoc.data().nickname || "");
-          setCurProfile(userDoc.data().profileImg || "");
-        }
+        const { fetchUser } = useUserStore.getState();
+        await fetchUser(user.uid);
       }
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [curUser]);
 
   return (
     <div className="z-[999] fixed w-[100vw] h-screen flex justify-center items-center top-0 left-0 right-0 bottom-0 bg-[rgba(0,0,0,0.4)]">
@@ -164,7 +156,7 @@ const DetailModalContent = () => {
                 </div>
               </div>
             </div>
-            {nickname === postDetail?.userId && (
+            {curUser?.nickname === postDetail?.userId && (
               <div className="relative flex items-center justify-center">
                 <Button
                   className="text-[30px]"
@@ -225,9 +217,9 @@ const DetailModalContent = () => {
         </div>
         <hr className="my-2 mx-3" />
         <CommentForm
-          profileImg={curProfile}
+          profileImg={curUser?.profileImg as string}
           postId={id as string}
-          nickname={nickname}
+          nickname={curUser?.nickname as string}
         />
         <CommentList postId={id as string} />
       </div>

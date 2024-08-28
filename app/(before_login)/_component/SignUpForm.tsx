@@ -155,7 +155,7 @@ const SignUpForm = () => {
             />
           ) : (
             <Image
-              src="/assets/icons/base_profile_img.png"
+              src="/assets/icons/base_profile.png"
               alt="기본 프로필 이미지"
               width={60}
               height={60}
