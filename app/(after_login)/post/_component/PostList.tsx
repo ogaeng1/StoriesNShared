@@ -1,7 +1,7 @@
 "use client";
 
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { getPosts } from "@/service/getPosts";
+import { getPosts } from "@/services/getPosts";
 import PostCard from "./PostCard";
 import { Feed } from "./types";
 import { useInView } from "react-intersection-observer";

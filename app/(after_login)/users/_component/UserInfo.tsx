@@ -11,6 +11,7 @@ import {
   collection,
   where,
   getDocs,
+  Timestamp,
 } from "firebase/firestore";
 import { db, auth } from "@/firebase/firebase";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -25,10 +26,13 @@ import { useRouter } from "next/navigation";
 interface User {
   id: string;
   nickname: string;
+  email: string;
   profileImg: string;
   follower: string[];
   following: string[];
   bio: string;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
 }
 
 type Props = { userId: string };
