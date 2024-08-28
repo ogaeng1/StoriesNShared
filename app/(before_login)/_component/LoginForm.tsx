@@ -3,11 +3,9 @@
 import useLoginStore from "@/store/login";
 import Input from "@/components/UI/Input";
 import Button from "@/components/UI/Button";
-import { auth } from "@/firebase/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { FormEvent } from "react";
 import SocialLogin from "./SocialLogin";
-import { notify } from "@/components/UI/Toast";
+import { signIn } from "@/services/firebase/auth";
 
 const LoginForm = () => {
   const { email, password, setEmail, setPassword } = useLoginStore();
@@ -15,11 +13,7 @@ const LoginForm = () => {
   const userLoginSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-    } catch (err) {
-      notify("error", "이메일과 비밀번호를 확인하세요.");
-    }
+    signIn({ email, password });
   };
 
   return (
