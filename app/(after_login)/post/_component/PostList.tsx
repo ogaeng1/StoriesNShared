@@ -4,12 +4,10 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { getPosts } from "@/services/getPosts";
 import PostCard from "./PostCard";
 import { Feed } from "./types";
-import { useInView } from "react-intersection-observer";
-import { useEffect } from "react";
+import { useCallback } from "react";
+import { Virtuoso } from "react-virtuoso";
 
 const PostList = () => {
-  const { ref, inView } = useInView();
-
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery({
       queryKey: ["feeds"],
@@ -19,23 +17,23 @@ const PostList = () => {
       initialPageParam: null,
       getNextPageParam: (lastPage) => lastPage?.lastVisible || null,
     });
-  useEffect(() => {
-    if (inView && hasNextPage) {
+
+  const loadMoreData = useCallback(() => {
+    return setTimeout(() => {
       fetchNextPage();
-    }
-  }, [inView, fetchNextPage, hasNextPage]);
+    }, 500);
+  }, []);
 
   return (
-    <>
-      {data?.pages.map((page, pageIndex) => (
-        <div key={pageIndex}>
-          {page.posts.map((post: Feed) => (
-            <PostCard key={post.id} data={post} />
-          ))}
-        </div>
-      ))}
-      <div ref={hasNextPage && !isFetchingNextPage ? ref : null} />
-    </>
+    <Virtuoso
+      style={{ height: "100vh" }}
+      useWindowScroll
+      data={data?.pages.flatMap((page) => page.posts)}
+      endReached={loadMoreData}
+      itemContent={(index, post: Feed) => (
+        <PostCard key={post.id} data={post} />
+      )}
+    />
   );
 };
 
